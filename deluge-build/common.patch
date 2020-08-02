@@ -1,0 +1,14 @@
+--- a/common.py	2019-12-08 01:22:54.490991100 +0100
++++ b/common.py	2019-12-02 12:32:23.611548100 +0100
+@@ -69,6 +69,11 @@
+ 
+ 
+ def get_pixbuf_at_size(filename, size):
++    # current GdkPixbuf is broken somehow and crashes after loading some number of ico files
++    if filename.endswith('.ico'):
++        log.warning('Returning blank pixbuf instead of loading file: {}'.format(filename))
++        return create_blank_pixbuf(size)
++
+     if not os.path.isabs(filename):
+         filename = get_pixmap(filename)
+     try:

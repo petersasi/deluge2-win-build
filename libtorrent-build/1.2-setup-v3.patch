@@ -1,0 +1,27 @@
+--- "a\\setup.py"	2020-05-29 15:16:50.000000000 +0800
++++ "b\\setup.py"	2020-05-30 20:06:06.504641500 +0800
+@@ -105,10 +105,11 @@
+             elif sys.version_info[0:2] in ((3, 3), (3, 4)):
+                 toolset = ' toolset=msvc-10.0'
+             elif sys.version_info[0:2] in ((3, 5), (3, 6)):
+-                toolset = ' toolset=msvc-14'
++                toolset = ' toolset=msvc-14.20'
+             else:
+                 # unknown python version, lets hope the user has the right version of msvc configured
+-                toolset = ' toolset=msvc'
++                # instead make sure we prepare for MSVC 2019
++                toolset = ' toolset=msvc-14.20'
+ 
+         parallel_builds = ' -j%d' % multiprocessing.cpu_count()
+         if sys.maxsize > 2**32:
+@@ -121,8 +122,8 @@
+         os.environ['LIBTORRENT_PYTHON_INTERPRETER'] = '"' + sys.executable + '"'
+ 
+         # build libtorrent using bjam and build the installer with distutils
+-        cmdline = ('b2 libtorrent-link=static boost-link=static release '
+-                   'optimization=space stage_module --abbreviate-paths' +
++        cmdline = ('b2 crypto=openssl libtorrent-link=static boost-link=static release '
++                   'optimization=speed stage_module --abbreviate-paths' +
+                    address_model + toolset + parallel_builds)
+         print(cmdline)
+         if os.system(cmdline) != 0:

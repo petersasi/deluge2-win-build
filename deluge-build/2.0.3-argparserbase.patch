@@ -1,0 +1,11 @@
+--- a/argparserbase.py	2019-06-12 19:47:11.000000000 +0200
++++ b/argparserbase.py	2019-10-27 14:16:06.848560800 +0100
+@@ -325,7 +325,7 @@
+ 
+             # Write pid file before chuid
+             if options.pidfile:
+-                with open(options.pidfile, 'wb') as _file:
++                with open(options.pidfile, 'w') as _file:
+                     _file.write('%d\n' % os.getpid())
+ 
+             if not common.windows_check():

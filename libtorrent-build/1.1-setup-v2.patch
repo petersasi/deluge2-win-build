@@ -1,0 +1,20 @@
+--- a/setup.py	2019-12-19 16:46:32.000000000 +0100
++++ b/setup.py	2019-12-20 02:01:06.769698800 +0100
+@@ -88,7 +88,7 @@
+ 			elif sys.version_info[0:2] in ((3, 3), (3, 4)):
+ 				toolset = ' toolset=msvc-10.0'
+ 			elif sys.version_info[0:2] in ((3, 5), (3, 6)):
+-				toolset = ' toolset=msvc-14'
++				toolset = ' toolset=msvc-14.20'
+ 			else:
+ 				# unknown python version, lets hope the user has the right version of msvc configured
+ 				toolset = ' toolset=msvc'
+@@ -103,7 +103,7 @@
+ 		os.environ['LIBTORRENT_PYTHON_INTERPRETER'] = '"' + sys.executable + '"'
+ 
+ 		# build libtorrent using bjam and build the installer with distutils
+-		cmdline = 'b2 libtorrent-link=static boost-link=static release optimization=space stage_module --abbreviate-paths' + address_model + toolset + parallel_builds
++		cmdline = 'b2 crypto=openssl openssl-lib=c:/openssl-win64/lib openssl-include=c:/openssl-win64/include libtorrent-link=static boost-link=static release optimization=speed stage_module --abbreviate-paths' + address_model + toolset + parallel_builds
+ 		print(cmdline)
+ 		if os.system(cmdline) != 0:
+ 			print('build failed')

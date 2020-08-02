@@ -1,0 +1,35 @@
+--- a/preferencesmanager.py	2019-12-08 01:22:54.083177300 +0100
++++ b/preferencesmanager.py	2020-01-08 02:30:19.981268000 +0100
+@@ -24,10 +24,14 @@
+ from deluge._libtorrent import lt
+ from deluge.event import ConfigValueChangedEvent
+ 
++GeoIP = None
+ try:
+-    import GeoIP
++    from GeoIP import GeoIP
+ except ImportError:
+-    GeoIP = None
++    try: 
++        from pygeoip import GeoIP 
++    except ImportError: 
++        pass
+ 
+ try:
+     from urllib.parse import quote_plus
+@@ -464,9 +468,12 @@
+         # Load the GeoIP DB for country look-ups if available
+         if os.path.exists(geoipdb_path):
+             try:
+-                self.core.geoip_instance = GeoIP.open(
+-                    geoipdb_path, GeoIP.GEOIP_STANDARD
+-                )
++                self.core.geoip_instance = GeoIP(geoipdb_path, 0)
++            except AttributeError:
++                log.warning('GeoIP Unavailable')
++        elif os.path.exists('../GeoIP.dat'):
++            try:
++                self.core.geoip_instance = GeoIP('../GeoIP.dat', 0)
+             except AttributeError:
+                 log.warning('GeoIP Unavailable')
+         else:

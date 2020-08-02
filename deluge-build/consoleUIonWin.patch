@@ -1,0 +1,23 @@
+diff -u a/main.py b/main.py
+--- a/main.py	2020-06-21 12:06:57.265821900 +0800
++++ b/main.py	2020-06-21 13:53:55.000000000 +0800
+@@ -125,17 +125,8 @@
+         else:
+             # Interactive
+             if deluge.common.windows_check():
+-                print(
+-                    """\nDeluge-console does not run in interactive mode on Windows. \n
+-Please use commands from the command line, e.g.:\n
+-    deluge-console.exe help
+-    deluge-console.exe info
+-    deluge-console.exe "add --help"
+-    deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
+-"""
+-                )
+-            else:
+-
++                log.debug('Deluge-console experimantal build using windows-curses. Use at your own risk!') 
++                
+                 class ConsoleLog(object):
+                     def write(self, data):
+                         pass

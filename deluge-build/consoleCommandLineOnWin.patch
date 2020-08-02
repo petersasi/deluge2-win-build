@@ -1,0 +1,13 @@
+diff -u a/basemode.py b/basemode.py
+--- a/basemode.py	2020-06-21 12:06:57.281448800 +0800
++++ b/basemode.py	2020-06-21 12:26:19.000000000 +0800
+@@ -68,6 +68,9 @@
+             signal.signal(signal.SIGWINCH, self.on_terminal_size)
+         except ValueError as ex:
+             log.debug('Unable to catch SIGWINCH signal: %s', ex)
++        except AttributeError as ex:
++            log.debug('Windows Curses and Python does not have SIGWINCH signal on Windows, skipping this: %s', ex)
++            pass
+ 
+     def on_terminal_size(self, *args):
+         # Get the new rows and cols value

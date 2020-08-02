@@ -1,0 +1,14 @@
+--- a/_glibbase.py	2019-12-08 01:21:40.851397500 +0100
++++ b/_glibbase.py	2019-10-30 00:53:14.952947700 +0100
+@@ -382,9 +382,10 @@
+         if self._simtag is not None:
+             self._source_remove(self._simtag)
+         self.iterate()
+-        timeout = min(self.timeout(), 0.01)
++        timeout = self.timeout()
+         if timeout is None:
+             timeout = 0.01
++        timeout = min(timeout, 0.01)
+         self._simtag = self._timeout_add(
+             int(timeout * 1000), self.simulate,
+             priority=self._glib.PRIORITY_DEFAULT_IDLE)

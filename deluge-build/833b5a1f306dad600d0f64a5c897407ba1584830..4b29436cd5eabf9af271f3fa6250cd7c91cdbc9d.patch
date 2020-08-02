@@ -1,0 +1,37 @@
+From 4b29436cd5eabf9af271f3fa6250cd7c91cdbc9d Mon Sep 17 00:00:00 2001
+From: Calum Lind <calumlind+deluge@gmail.com>
+Date: Mon, 24 Jun 2019 16:34:15 +0100
+Subject: [Core] Fix for peer.client UnicodeDecodeError
+
+Some users have been reporting unhandled UnicodeDecodeErrors and the
+traces show it occuring in the call to `peer.client`. Although unable to
+replicate it seems prudent to put a try..except around the call to
+ensure it does not break the UIs.
+
+Refs: https://github.com/arvidn/libtorrent/issues/3858
+
+Closes: #3279
+---
+ deluge/core/torrent.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/deluge/core/torrent.py b/deluge/core/torrent.py
+index 10d5b47..f40b588 100644
+--- a/deluge/core/torrent.py
++++ b/deluge/core/torrent.py
+@@ -810,7 +810,11 @@ class Torrent(object):
+             if peer.flags & peer.connecting or peer.flags & peer.handshake:
+                 continue
+ 
+-            client = decode_bytes(peer.client)
++            try:
++                client = decode_bytes(peer.client)
++            except UnicodeDecodeError:
++                # libtorrent on Py3 can raise UnicodeDecodeError for peer_info.client
++                client = 'unknown'
+ 
+             try:
+                 country = component.get('Core').geoip_instance.country_code_by_addr(
+-- 
+cgit v1.1
+

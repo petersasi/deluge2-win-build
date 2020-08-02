@@ -1,0 +1,12 @@
+diff -u a/torrentmanager.py b/torrentmanager.py
+--- a/torrentmanager.py	2020-04-04 12:42:02.515192400 +0200
++++ b/torrentmanager.py	2020-04-04 12:49:39.209597900 +0200
+@@ -809,7 +809,7 @@
+ 
+             try:
+                 with open(filepath, 'rb') as _file:
+-                    state = pickle.load(_file)
++                    state = pickle.load(_file, encoding='utf8')
+             except (IOError, EOFError, pickle.UnpicklingError) as ex:
+                 message = 'Unable to load {}: {}'.format(filepath, ex)
+                 log.error(message)
