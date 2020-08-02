@@ -1,5 +1,5 @@
 # deluge2-win-build
-A set of scripts to prepare prerequisites for and build Deluge2 and it's prerequisites for Windows 10
+A set of scripts to prepare prerequisites for and build Deluge2 on Windows 10
 
 ## IMPORTANT!
 The current release folder for these builds (the "Deluge2 Unofficial Installer for Windows" Google Drive Folder) contains several older builds with older build logic and library versions just in case you would find it useful to go back. 
@@ -7,7 +7,10 @@ PLEASE switch to List View (top right corner icon) to see the file dates and dow
 Your maintainer mostly uses the latest, non-portable dev version with thin client and daemon mode on Windows 10 with the Adwaita-dark theme, so consider that combination the best tested.
 
 ## BUILDING
-To build Deluge2 for windows use the scripts in the below order. first install the prerequisites: ```install_components.cmd```
+To build Deluge2 for windows use the scripts in the below order.
+
+### Install the prerequisites
+```install_components.cmd```
 1.	7zip
 2.	MSYS2
 3.	NullSoft Scriptable Intstaller System
@@ -16,7 +19,8 @@ To build Deluge2 for windows use the scripts in the below order. first install t
 6.	Microsoft Visual Studio 2019
 Using ```openssl-build\openssl.cmd```
 7.	Latest OpenSSL release
-And build: 
+
+### Build
 1.	GTK-3 using wingtk/gvsbuild ```gvsbuild-build\gvsbuild.cmd```
 2.	Libtorrent, 3 flavours, including and using Boost and it's B2 build system and the latest Python version ```libtorrent-build\{lt-RC_1_2.cmd,lt-RC_1_1.cmd,lt-1.2.3.cmd}```
 3.	Deluge: the latest release version and the latest dev version. Including and using the latest Python version. ```deluge-build\{deluge-dev.cmd,deluge-stable.cmd}```
