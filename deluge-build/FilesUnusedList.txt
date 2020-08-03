@@ -55,8 +55,6 @@
 \data\lib\gdk-pixbuf-2.0\2.10.0\loaders\pixbufloader-gdip-bmp.lib
 \data\lib\gdk-pixbuf-2.0\2.10.0\loaders\pixbufloader-gdip-emf.dll
 \data\lib\gdk-pixbuf-2.0\2.10.0\loaders\pixbufloader-gdip-emf.lib
-\data\lib\gdk-pixbuf-2.0\2.10.0\loaders\pixbufloader-gdip-gif.dll
-\data\lib\gdk-pixbuf-2.0\2.10.0\loaders\pixbufloader-gdip-gif.lib
 \data\lib\gdk-pixbuf-2.0\2.10.0\loaders\pixbufloader-gdip-ico.dll
 \data\lib\gdk-pixbuf-2.0\2.10.0\loaders\pixbufloader-gdip-ico.lib
 \data\lib\gdk-pixbuf-2.0\2.10.0\loaders\pixbufloader-gdip-jpeg.dll
@@ -587,7 +585,6 @@
 \data\share\icons\Adwaita\16x16\emblems\emblem-favorite-symbolic.symbolic.png
 \data\share\icons\Adwaita\16x16\emblems\emblem-important-symbolic.symbolic.png
 \data\share\icons\Adwaita\16x16\emblems\emblem-music-symbolic.symbolic.png
-\data\share\icons\Adwaita\16x16\emblems\emblem-ok-symbolic.symbolic.png
 \data\share\icons\Adwaita\16x16\emblems\emblem-photos-symbolic.symbolic.png
 \data\share\icons\Adwaita\16x16\emblems\emblem-readonly.png
 \data\share\icons\Adwaita\16x16\emblems\emblem-shared-symbolic.symbolic.png

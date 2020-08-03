@@ -31,6 +31,11 @@ are welcome! ;)
 
 ## CHANGE LOG
 
+### 3-Aug-2020 - fix missing files for Test connection
+
+1.	The extensive file clean up removed a bit too many files, fixed for test connection problem reported.
+2.	Shorten installer filename another 7 characters.
+
 ### 2-Aug-2020 - publish build scripts and guide at on github
 
 1.	Find the scripts and guide on [github](https://github.com/petersasi/deluge2-win-build)
@@ -115,4 +120,4 @@ are welcome! ;)
 -	Merge libtorrent build scripts (x3) and deluge-build scripts (x2)
 -	Bail out of the scipts on build error: ```|| echo ERROR Command returned error. && exit /b %errorlevel%```
 -	Make sure the build scripts work in any folder, not only ```c:\deluge2```
--	Refactor into "clean-code" .cmd files, use ```@echo``` instead of ```@rem``` :)
+-	Refactor the .cmd files into "clean-code": use ```@echo``` instead of ```@rem``` :)
