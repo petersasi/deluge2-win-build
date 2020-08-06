@@ -17,6 +17,7 @@ To build Deluge2 for windows use the scripts in the below order.
 4.	NSprocess plugin for NSIS for process control
 5.	StrContains plugin for NSIS
 6.	Microsoft Visual Studio 2019
+
 Using ```openssl-build\openssl.cmd```
 7.	Latest OpenSSL release
 
