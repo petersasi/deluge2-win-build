@@ -21,9 +21,9 @@ To build Deluge2 for windows use the scripts in the below order.
 Using ```openssl-build\openssl.cmd```
 7.	Latest OpenSSL release
 
-Using ```createlinks.cmd```
+Using ```createlinks.cmd``` (called by ```install_components.cmd```)
 8.	Create links for the shared code in the lib folder
-
+	
 ### Build
 1.	GTK-3 using wingtk/gvsbuild ```gvsbuild-build\gvsbuild.cmd```
 2.	Libtorrent, 3 flavours, including and using Boost and it's B2 build system and the latest Python version ```libtorrent-build\{lt-RC_1_2.cmd,lt-RC_1_1.cmd,lt-1.2.3.cmd}```
@@ -39,6 +39,8 @@ are welcome! ;)
 
 1.	Added Build Menu cmd file from MHerz
 2.	Added a lib folder for common build code an createlinks.cmd to create a symlink to it into each build folder
+3.	Unified Copyright notices in all CMD files
+4.	Start using color to make build messages pop more out of the build output
 
 ### 3-Aug-2020 - fix missing files for Test connection
 
