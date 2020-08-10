@@ -29,7 +29,7 @@ Using ```createlinks.cmd``` (called by ```install_components.cmd```)
 1.	GTK-3 using wingtk/gvsbuild ```gvsbuild-build\gvsbuild.cmd```
 2.	Libtorrent, 3 flavours, including and using Boost and it's B2 build system and the latest Python version ```libtorrent-build\{lt-RC_1_2.cmd,lt-RC_1_1.cmd,lt-1.2.3.cmd}```
 3.	Deluge: the latest release version and the latest dev version. Including and using the latest Python version. ```deluge-build\{deluge-dev.cmd,deluge-stable.cmd}```
-4.	Installers for the above ```installer-build\{installer-both.cmd,installer-dev.cmd,installer-stable.cmd}```
+4.	Installers for the above ```installer-build\installer-build.cmd all|dev|stable```
 
 The current set of scripts is a work in progress lacking several flavours of cleanup, see TODO at the end. Priority is given to features so the cleanup is not yet finished, patches / PRs
 are welcome! ;)
