@@ -36,9 +36,9 @@ are welcome! ;)
 
 ## CHANGE LOG
 
-### 3-Aug-2020 - fix 3rd party plugins, build maintainability and readability
+### 10-Aug-2020 - fix 3rd party plugins, build maintainability and readability
 
-1.	Aded YaRSS2 plugin to the installer and re-added the files that were missing for those.
+1.	Added YaRSS2 plugin to the installer and re-added the files that were missing for those.
 2.	Patched out the complex code in log.py trying (and failing on Windows) to monkey-patch the calling module's `log` attribute, and just leave the original warning there to help the users of 3rd party plugins using deprecated log interfaces.
 3.	Create a single installer build script with paramteres
 4.	Added Build Menu cmd file from MHerz.
