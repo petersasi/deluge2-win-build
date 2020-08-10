@@ -41,6 +41,7 @@ are welcome! ;)
 2.	Added a lib folder for common build code an createlinks.cmd to create a symlink to it into each build folder
 3.	Unified Copyright notices in all CMD files
 4.	Start using color to make build messages pop more out of the build output
+5.	Create a single installer build script with paramteres
 
 ### 3-Aug-2020 - fix missing files for Test connection
 
