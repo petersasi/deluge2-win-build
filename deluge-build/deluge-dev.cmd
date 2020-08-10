@@ -1,9 +1,9 @@
 @rem This script is Copyright 
-@rem 2019-2020 MHerz (Denmark) user of the Deluge Forum https://forum.deluge-torrent.org/
-@rem 2020 PeterSasi user of the Deluge Forum https://forum.deluge-torrent.org/
+@rem 2019-2020 Martin Herz (mherz-Denmark) user of the Deluge Forum https://forum.deluge-torrent.org/
+@rem 2020 Peter Sasi user of the Deluge Forum https://forum.deluge-torrent.org/
 
-@echo Change to the directory of this script
 @cd "%~dp0"
+call lib\printc "INFO: Changed to the directory of this script"
 
 @echo Save the original PATH so that it does not keep growing on many runs, add MSYS2 /usr/bin to PATH
 @set OLDPATH=%PATH%

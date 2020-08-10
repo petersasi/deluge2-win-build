@@ -1,6 +1,6 @@
-rem This script is Copyright 
-rem 2019-2020 Martin Herz (mherz-Denmark) user of the Deluge Forum https://forum.deluge-torrent.org/
-rem 2020 PeterSasi user of the Deluge Forum https://forum.deluge-torrent.org/
+@rem This script is Copyright 
+@rem 2019-2020 Martin Herz (mherz-Denmark) user of the Deluge Forum https://forum.deluge-torrent.org/
+@rem 2020 Peter Sasi user of the Deluge Forum https://forum.deluge-torrent.org/
 
 @echo off
 net sess>nul 2>&1||(echo(CreateObject("Shell.Application"^).ShellExecute"%~0",,,"RunAs",1:CreateObject("Scripting.FileSystemObject"^).DeleteFile(wsh.ScriptFullName^)>"%temp%\%~nx0.vbs"&start wscript.exe "%temp%\%~nx0.vbs"&exit)

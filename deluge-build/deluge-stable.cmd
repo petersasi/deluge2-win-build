@@ -1,6 +1,6 @@
 @rem This script is Copyright 
-@rem 2019-2020 MHerz (Denmark) user of the Deluge Forum https://forum.deluge-torrent.org/
-@rem 2020 PeterSasi user of the Deluge Forum https://forum.deluge-torrent.org/
+@rem 2019-2020 Martin Herz (mherz-Denmark) user of the Deluge Forum https://forum.deluge-torrent.org/
+@rem 2020 Peter Sasi user of the Deluge Forum https://forum.deluge-torrent.org/
 
 cd "%~dp0"
 

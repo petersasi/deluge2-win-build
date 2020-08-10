@@ -1,3 +1,7 @@
+@rem This script is Copyright 
+@rem 2019-2020 Martin Herz (mherz-Denmark) user of the Deluge Forum https://forum.deluge-torrent.org/
+@rem 2020 Peter Sasi user of the Deluge Forum https://forum.deluge-torrent.org/
+
 cd "%~dp0"
 curl -LO https://dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.7z
 "%programfiles%\7-Zip\7z.exe" x boost_*.7z -oC:

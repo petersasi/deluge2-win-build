@@ -1,6 +1,6 @@
-rem This script is Copyright 
-rem 2019-2020 mherz (Denmark) user of the Deluge Forum https://forum.deluge-torrent.org/
-rem 2020 PeterSasi user of the Deluge Forum https://forum.deluge-torrent.org/
+@rem This script is Copyright 
+@rem 2019-2020 Martin Herz (mherz-Denmark) user of the Deluge Forum https://forum.deluge-torrent.org/
+@rem 2020 Peter Sasi user of the Deluge Forum https://forum.deluge-torrent.org/
 
 cd "%~dp0"
 
@@ -43,3 +43,5 @@ rem del auto-install.js msys2-x86_64-latest.tar* Win64OpenSSL-1_1_1g.exe nsis-3.
 
 rd /s /q nsprocess
 rd /s /q nsprocess
+
+call createlinks.cmd
