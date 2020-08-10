@@ -12,8 +12,7 @@ rem Win64OpenSSL-1_1_1g.exe /dir="C:\OpenSSL-Win64" /verysilent
 rem added -C - so that it is resumed / not redownloaded
 curl -C - -O http://repo.msys2.org/distrib/msys2-x86_64-latest.tar.xz
 rem cannot yet use the MSYS2 7zip
-"%programfiles%\7-Zip\7z.exe" x msys2-x86_64-latest.tar.xz
-"%programfiles%\7-Zip\7z.exe" x msys2-x86_64-latest.tar -oC:
+"%programfiles%\7-Zip\7z.exe" x -so msys2-x86_64-latest.tar.xz | "%programfiles%\7-Zip\7z.exe" x -si -ttar -oC: msys2-x86_64-latest.tar
 C:\msys64\usr\bin\bash -lic "pacman -Syu --noconfirm"
 C:\msys64\usr\bin\bash -lic "pacman -Syu --noconfirm"
 C:\msys64\usr\bin\bash -lic "pacman -S diffutils patch git p7zip --noconfirm"

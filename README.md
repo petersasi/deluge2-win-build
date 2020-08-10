@@ -39,13 +39,14 @@ are welcome! ;)
 ### 3-Aug-2020 - fix 3rd party plugins, build maintainability and readability
 
 1.	Aded YaRSS2 plugin to the installer and re-added the files that were missing for those.
-2.	Create a single installer build script with paramteres
-3.	Added Build Menu cmd file from MHerz.
-4.	Added a lib folder for common build code an createlinks.cmd to create a symlink to it into each build folder
-5.	Made sure the curl we use is from the MSYS2 we installed, not the windows one.
-6. 	Reverted installing 7zip for windows and instead added it to the packages installed in MSYS2.
-7.	Start using color to make build messages pop more out of the build output
-8.	Unified Copyright notices in all CMD files
+2.	Patched out the complex code in log.py trying (and failing on Windows) to monkey-patch the calling module's `log` attribute, and just leave the original warning there to help the users of 3rd party plugins using deprecated log interfaces.
+3.	Create a single installer build script with paramteres
+4.	Added Build Menu cmd file from MHerz.
+5.	Added a lib folder for common build code an createlinks.cmd to create a symlink to it into each build folder
+6.	Made sure the curl we use is from the MSYS2 we installed, not the windows one.
+7. 	Reverted installing 7zip for windows and instead added it to the packages installed in MSYS2.
+8.	Start using color to make build messages pop more out of the build output
+9.	Unified Copyright notices in all CMD files
 
 ### 3-Aug-2020 - fix missing files for Test connection
 

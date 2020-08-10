@@ -67,6 +67,7 @@ patch "%programfiles%/deluge/Lib/site-packages/deluge/ui/console/main.py" < cons
 patch "%programfiles%/deluge/Lib/site-packages/deluge/ui/console/modes/basemode.py" < consoleCommandLineOnWin.patch
 patch -d "%programfiles%/deluge/Lib/site-packages" -p1 --no-backup-if-mismatch < 543a91bd9b06ceb3eee35ff4e7e8f0225ee55dc5-fixed.patch
 curl https://git.deluge-torrent.org/deluge/patch/?id=4b29436cd5eabf9af271f3fa6250cd7c91cdbc9d | patch -d "%programfiles%/deluge/Lib/site-packages" -p1 --no-backup-if-mismatch
+patch "%programfiles%/Deluge2/Lib/site-packages/deluge/log.py" < logging.patch
 patch -R "%programfiles%/deluge/Lib/site-packages/cairo/__init__.py" < pycairo_py3_8_load_dll.patch
 patch -R "%programfiles%/deluge/Lib/site-packages/gi/__init__.py" < pygobject_py3_8_load_dll.patch
 
