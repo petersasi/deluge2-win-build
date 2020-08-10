@@ -42,6 +42,7 @@ are welcome! ;)
 3.	Unified Copyright notices in all CMD files
 4.	Start using color to make build messages pop more out of the build output
 5.	Create a single installer build script with paramteres
+6.	Made sure the curl we use is from the MSYS2 we installed, not the windows one
 
 ### 3-Aug-2020 - fix missing files for Test connection
 

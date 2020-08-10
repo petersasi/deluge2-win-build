@@ -33,6 +33,8 @@
 @goto common
 
 :common
+	@call lib\initpath
 	@curl https://dl.miyuru.lk/geoip/maxmind/country/maxmind4.dat.gz | "%programfiles%\7-Zip\7z" x -si -tgzip -so > C:\deluge2\%sourceFolder%\GeoIP.dat
 	@"C:\Program Files (x86)\NSIS\makensis" /DPROGRAM_VERSION=%sourceFolder:~7% /Dsrcdir=C:\deluge2\%sourceFolder% C:\deluge2\nsis\packaging\win32\deluge-installer.nsi
+	@call lib\restorepath
 @goto :EOF
