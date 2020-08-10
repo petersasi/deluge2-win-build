@@ -5,9 +5,7 @@
 @cd "%~dp0"
 call lib\printc "INFO: Changed to the directory of this script"
 
-@echo Save the original PATH so that it does not keep growing on many runs, add MSYS2 /usr/bin to PATH
-@set OLDPATH=%PATH%
-@set PATH=C:\msys64\usr\bin;%PATH%
+call lib\initpath
 
 @echo Find out what is the latest python version Released
 @for /f %%i in ('curl -s https://www.python.org/ ^| grep "Latest: " ^| cut -d/ -f5 ^| cut -d" " -f2 ^| tr -d "<"') do @set pythonVersion=%%i
@@ -148,5 +146,4 @@ if exist "%programfiles%\deluge" rd /s /q "%programfiles%\deluge"
 @rem let'a not remove so that download can be resumed / skipped on next run
 @rem del python*.exe
 
-@rem Restore the original PATH so that it does not keep growing on many runs
-set PATH=%OLDPATH%
+call lib\restorepath

@@ -3,12 +3,14 @@
 @rem 2020 Peter Sasi user of the Deluge Forum https://forum.deluge-torrent.org/
 
 cd "%~dp0"
+call lib\initpath
+
 curl -LO https://dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.7z
-"%programfiles%\7-Zip\7z.exe" x boost_*.7z -oC:
+7z x boost_*.7z -oC:
 move C:\boost_* C:\boost
 set BOOST_ROOT=c:\boost
 set BOOST_BUILD_PATH=%BOOST_ROOT%\tools\build
-set PATH=%PATH%;%BOOST_BUILD_PATH%\src\engine\bin.ntx86;%BOOST_ROOT%;C:\python;C:\msys64\usr\bin
+set PATH=%PATH%;%BOOST_BUILD_PATH%\src\engine\bin.ntx86;%BOOST_ROOT%;C:\python
 git clone https://github.com/arvidn/libtorrent -b libtorrent-1_2_3 C:/libtorrent
 for /f %%i in ('curl -s https://www.python.org/ ^| grep "Latest: " ^| cut -d/ -f5 ^| cut -d" " -f2 ^| tr -d "<"') do set var2=%%i
 curl.exe -O https://www.python.org/ftp/python/%var2%/python-%var2%-amd64.exe
@@ -31,3 +33,5 @@ rd /s /q C:\python 2>nul
 rd /s /q C:\python 2>nul
 del python*.exe boost_*.7z
 pause
+
+call lib\restorepath

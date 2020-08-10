@@ -5,7 +5,7 @@
 @cd %~dp0
 
 @goto %~1 2>NUL || (
-	@echo Invalid argument: "%1"
+	@call lib\printc error "Invalid argument: '%~n0 %1'"
 	@echo.
 	@echo To build both installers, use:
 	@call lib\printc green "%~n0 all"
@@ -16,25 +16,30 @@
 )
 
 :all
-	@call lib\printc "Calling stable build script..."
+	@call lib\printc info "Calling stable build script..."
 	@call %~f0 stable
-	@call lib\printc "Calling dev build script..."
+	@call lib\printc info "Calling dev build script..."
 	@call %~f0 dev
 @goto :EOF
 
 :dev
-	@call lib\printc "Building latest development version instaler:"
+	@call lib\printc info "Building latest development version instaler:"
 	@for /f %%i in ('dir /b C:\deluge2\deluge-2* ^| findstr dev') do set sourceFolder=%%i
 @goto common
 
 :stable
-	@call lib\printc "Building latest stable version instaler:"
+	@call lib\printc info "Building latest stable version instaler:"
 	@for /f %%i in ('dir /b C:\deluge2\deluge-2* ^| findstr /v dev') do set sourceFolder=%%i
 @goto common
 
 :common
 	@call lib\initpath
-	@curl https://dl.miyuru.lk/geoip/maxmind/country/maxmind4.dat.gz | "%programfiles%\7-Zip\7z" x -si -tgzip -so > C:\deluge2\%sourceFolder%\GeoIP.dat
+
+	@call lib\printc info "Downloading and unzipping latest GeoIP.dat into the source folder."
+	@curl https://dl.miyuru.lk/geoip/maxmind/country/maxmind4.dat.gz | 7z x -si -tgzip -so > C:\deluge2\%sourceFolder%\GeoIP.dat
+
+	@call lib\printc info "Starting NSIS build."
 	@"C:\Program Files (x86)\NSIS\makensis" /DPROGRAM_VERSION=%sourceFolder:~7% /Dsrcdir=C:\deluge2\%sourceFolder% C:\deluge2\nsis\packaging\win32\deluge-installer.nsi
+
 	@call lib\restorepath
 @goto :EOF

@@ -72,8 +72,8 @@ goto %last%
 cmd /c deluge-build\deluge-dev.cmd
 goto %last%
 :8
-cmd /c installer-build\installer-stable.cmd
+cmd /c installer-build\installer-build.cmd stable
 goto %last%
 :9
-cmd /c installer-build\installer-dev.cmd
+cmd /c installer-build\installer-build.cmd dev
 goto %last%

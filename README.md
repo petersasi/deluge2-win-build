@@ -10,6 +10,7 @@ Your maintainer mostly uses the latest, non-portable dev version with thin clien
 To build Deluge2 for windows use the scripts in the below order.
 
 ### Install the prerequisites
+The main goal is to have as little of these as possible not to pollute the building computer. At the same time if something really is needed, I would rather use the original installers (e.g. 7zip vs. 7zip.NET - ended up using the one in MSYS2).
 ```install_components.cmd```
 1.	7zip
 2.	MSYS2
@@ -42,7 +43,8 @@ are welcome! ;)
 3.	Unified Copyright notices in all CMD files
 4.	Start using color to make build messages pop more out of the build output
 5.	Create a single installer build script with paramteres
-6.	Made sure the curl we use is from the MSYS2 we installed, not the windows one
+6.	Made sure the curl we use is from the MSYS2 we installed, not the windows one.
+7. 	Reverted installing 7zip for windows and instead added it to the packages installed in MSYS2.
 
 ### 3-Aug-2020 - fix missing files for Test connection
 
