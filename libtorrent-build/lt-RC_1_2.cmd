@@ -13,7 +13,7 @@ set PATH=%PATH%;%BOOST_BUILD_PATH%\src\engine;%BOOST_ROOT%;C:\python
 @rem Scrape the latest python version from the main web page
 for /f %%i in ('curl -s https://www.python.org/ ^| grep "Latest: " ^| cut -d/ -f5 ^| cut -d" " -f2 ^| tr -d "<"') do set var2=%%i
 @rem add -C - so that download is resumed / skipped
-curl.exe -C - -O https://www.python.org/ftp/python/%var2%/python-%var2%-amd64.exe
+curl -C - -O https://www.python.org/ftp/python/%var2%/python-%var2%-amd64.exe
 @rem Install the downloaded python version
 python-%var2%-amd64.exe /quiet InstallAllUsers=1 Include_test=0 InstallLauncherAllUsers=0 Include_launcher=0 TargetDir=C:\python
 
@@ -26,7 +26,7 @@ for /f %%i in ('echo %BOOST_FOLDER% ^| sed "s/boost_//" ^| tr "_" "."') do set B
 curl -C - -LO https://dl.bintray.com/boostorg/release/%BOOST_VERSION%/source/%BOOST_ARCHIVE%
 
 @rem Decompress only one specific boost archive in the folder of this script, -aos for skip extraction if file is already there
-7z x %BOOST_ARCHIVE% -o"%~dp0" -aos
+7z x -aos %BOOST_ARCHIVE% -o%~dp0
 
 @rem try to link  the specific boost version's folder in this script's folder to C:\
 mklink /d C:\boost "%~dp0\%BOOST_FOLDER%"
@@ -82,10 +82,7 @@ for /f %%i in ('dir /b C:\deluge2\deluge-2* ^| findstr dev') do copy /y libtorre
 cd "%~dp0"
 python-%var2%-amd64.exe /uninstall /quiet
 rd /s /q C:\boost
-rd /s /q C:\boost
 rd /s /q C:\libtorrent
-rd /s /q C:\libtorrent
-rd /s /q C:\python
 rd /s /q C:\python
 
 @rem let'a not remove so that download can be resumed / skipped on next run

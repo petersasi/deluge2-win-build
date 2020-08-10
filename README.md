@@ -10,7 +10,7 @@ Your maintainer mostly uses the latest, non-portable dev version with thin clien
 To build Deluge2 for windows use the scripts in the below order.
 
 ### Install the prerequisites
-The main goal is to have as little of these as possible not to pollute the building computer. At the same time if something really is needed, I would rather use the original installers (e.g. 7zip vs. 7zip.NET - ended up using the one in MSYS2).
+The main goal is to have as little of these as possible not to pollute the building computer. At the same time if something really is needed, I would rather use the original installers (e.g. 7zip vs. 7zip.NET - ended up using the one in MSYS2 - nota bene: feels sluggish compared to the native Win64 version which is also 3 major versions newer).
 ```install_components.cmd```
 1.	7zip
 2.	MSYS2
@@ -36,15 +36,16 @@ are welcome! ;)
 
 ## CHANGE LOG
 
-### 3-Aug-2020 - fix 3rd party plugins, build menu, start organizing common build code into the lib folder 
+### 3-Aug-2020 - fix 3rd party plugins, build maintainability and readability
 
-1.	Added Build Menu cmd file from MHerz
-2.	Added a lib folder for common build code an createlinks.cmd to create a symlink to it into each build folder
-3.	Unified Copyright notices in all CMD files
-4.	Start using color to make build messages pop more out of the build output
-5.	Create a single installer build script with paramteres
-6.	Made sure the curl we use is from the MSYS2 we installed, not the windows one.
-7. 	Reverted installing 7zip for windows and instead added it to the packages installed in MSYS2.
+1.	Aded YaRSS2 plugin to the installer and re-added the files that were missing for those.
+2.	Create a single installer build script with paramteres
+3.	Added Build Menu cmd file from MHerz.
+4.	Added a lib folder for common build code an createlinks.cmd to create a symlink to it into each build folder
+5.	Made sure the curl we use is from the MSYS2 we installed, not the windows one.
+6. 	Reverted installing 7zip for windows and instead added it to the packages installed in MSYS2.
+7.	Start using color to make build messages pop more out of the build output
+8.	Unified Copyright notices in all CMD files
 
 ### 3-Aug-2020 - fix missing files for Test connection
 

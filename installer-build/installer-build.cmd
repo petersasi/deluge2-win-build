@@ -24,12 +24,12 @@
 
 :dev
 	@call lib\printc info "Building latest development version instaler:"
-	@for /f %%i in ('dir /b C:\deluge2\deluge-2* ^| findstr dev') do set sourceFolder=%%i
+	@for /f %%i in ('dir /b C:\deluge2\deluge-2* ^| findstr dev') do @set sourceFolder=%%i
 @goto common
 
 :stable
 	@call lib\printc info "Building latest stable version instaler:"
-	@for /f %%i in ('dir /b C:\deluge2\deluge-2* ^| findstr /v dev') do set sourceFolder=%%i
+	@for /f %%i in ('dir /b C:\deluge2\deluge-2* ^| findstr /v dev') do @set sourceFolder=%%i
 @goto common
 
 :common

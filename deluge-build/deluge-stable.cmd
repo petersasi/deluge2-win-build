@@ -2,14 +2,14 @@
 @rem 2019-2020 Martin Herz (mherz-Denmark) user of the Deluge Forum https://forum.deluge-torrent.org/
 @rem 2020 Peter Sasi user of the Deluge Forum https://forum.deluge-torrent.org/
 
-cd "%~dp0"
-lib\initpath
+@cd "%~dp0"
+call lib\initpath
 
 @rem Find out what is the latest python version Released
 for /f %%i in ('curl -s https://www.python.org/ ^| grep "Latest: " ^| cut -d/ -f5 ^| cut -d" " -f2 ^| tr -d "<"') do set pythonVersion=%%i
 
 @rem Download that python version, add -C - so that download is resumed / skipped
-curl.exe -C - -O https://www.python.org/ftp/python/%pythonVersion%/python-%pythonVersion%-amd64.exe
+curl -C - -O https://www.python.org/ftp/python/%pythonVersion%/python-%pythonVersion%-amd64.exe
 
 @rem Install python creating a Program Files\deluge folder
 python-%pythonVersion%-amd64.exe /quiet InstallAllUsers=1 Include_test=0 InstallLauncherAllUsers=0 Include_launcher=0 TargetDir="%programfiles%\deluge"
@@ -25,26 +25,30 @@ python -m pip install --upgrade pip
 @rem Using legacy 'setup.py install' for setproctitle, since package 'wheel' is not installed.
 @rem Using legacy 'setup.py install' for twisted, since package 'wheel' is not installed.
 @rem Using legacy 'setup.py install' for rencode, since package 'wheel' is not installed.
-pip.exe install wheel
+pip install wheel
 
-pip.exe install pycairo-1.19.1-cp38-cp38-win_amd64.whl
-pip.exe install PyGObject-3.36.0-cp38-cp38-win_amd64.whl
-pip.exe install pygeoip
-pip.exe install future
-pip.exe install requests
-pip.exe install windows-curses
+pip install pycairo-1.19.1-cp38-cp38-win_amd64.whl
+pip install PyGObject-3.36.0-cp38-cp38-win_amd64.whl
+pip install pygeoip
+pip install future
+pip install requests
+pip install windows-curses
 
 @rem Use the installers with better windows integration
 copy /y ..\loaders\* "%programfiles%\Deluge\Lib\site-packages\pip\_vendor\distlib"
 
-pip.exe install git+https://github.com/deluge-torrent/deluge@master
+pip install git+https://github.com/deluge-torrent/deluge@master
 git clone https://github.com/deluge-torrent/deluge -b master
 cd deluge
-python.exe version.py
+python version.py
 set /p delugeVersion=<RELEASE-VERSION
 
-python.exe setup.py build_plugins
+python setup.py build_plugins
 copy deluge\plugins\*.egg "%programfiles%\deluge\Lib\site-packages\deluge\plugins"
+
+call lib\printc info "Finding and downloading the latest YaRSS2 plugin"
+for /f "usebackq" %%i in (`curl -s https://bitbucket.org/bendikro/deluge-yarss-plugin/downloads/^|grep "YaRSS2.*-py3\.[789]\.egg"^|head -n1^|cut -d'^"' -f2`) do curl -C - -o YaRSS2-2.x.x-py3.8.egg https://bitbucket.org%%i
+copy YaRSS2-2.x.x-py3.8.egg "%programfiles%\deluge\Lib\site-packages\deluge\plugins"
 
 cd "%~dp0"
 if exist deluge rd /s /q deluge
@@ -62,7 +66,7 @@ patch "%programfiles%/deluge/Lib/site-packages/deluge/log.py" < 2.0.3-log.patch
 patch "%programfiles%/deluge/Lib/site-packages/deluge/ui/console/main.py" < consoleUIonWin.patch
 patch "%programfiles%/deluge/Lib/site-packages/deluge/ui/console/modes/basemode.py" < consoleCommandLineOnWin.patch
 patch -d "%programfiles%/deluge/Lib/site-packages" -p1 --no-backup-if-mismatch < 543a91bd9b06ceb3eee35ff4e7e8f0225ee55dc5-fixed.patch
-curl https://git.deluge-torrent.org/deluge/patch/?id=4b29436cd5eabf9af271f3fa6250cd7c91cdbc9d | patch.exe -d "%programfiles%/deluge/Lib/site-packages" -p1 --no-backup-if-mismatch
+curl https://git.deluge-torrent.org/deluge/patch/?id=4b29436cd5eabf9af271f3fa6250cd7c91cdbc9d | patch -d "%programfiles%/deluge/Lib/site-packages" -p1 --no-backup-if-mismatch
 patch -R "%programfiles%/deluge/Lib/site-packages/cairo/__init__.py" < pycairo_py3_8_load_dll.patch
 patch -R "%programfiles%/deluge/Lib/site-packages/gi/__init__.py" < pygobject_py3_8_load_dll.patch
 
@@ -78,26 +82,26 @@ if exist "%programfiles%\deluge\Scripts" rd /s /q "%programfiles%\deluge\Scripts
 if exist "%programfiles%\deluge\Scripts" rd /s /q "%programfiles%\deluge\Scripts"
 
 @rem Remove the "C:\Program Files\" path from referencing the python executables for portability by search and replace in all 8 deluge executables.
-python.exe portable.py -f "%programfiles%\deluge\deluged.exe"          -s "c:\program files\deluge\python.exe" -r pythonw.exe
-python.exe portable.py -f "%programfiles%\deluge\deluged-debug.exe"    -s "c:\program files\deluge\python.exe" -r python.exe
-python.exe portable.py -f "%programfiles%\deluge\deluge-web.exe"       -s "c:\program files\deluge\python.exe" -r pythonw.exe
-python.exe portable.py -f "%programfiles%\deluge\deluge-web-debug.exe" -s "c:\program files\deluge\python.exe" -r python.exe
-python.exe portable.py -f "%programfiles%\deluge\deluge.exe"           -s "c:\program files\deluge\pythonw.exe" -r pythonw.exe
-python.exe portable.py -f "%programfiles%\deluge\deluge-debug.exe"     -s "c:\program files\deluge\python.exe" -r python.exe
-python.exe portable.py -f "%programfiles%\deluge\deluge-gtk.exe"       -s "c:\program files\deluge\pythonw.exe" -r pythonw.exe
-python.exe portable.py -f "%programfiles%\deluge\deluge-console.exe"   -s "c:\program files\deluge\python.exe" -r python.exe
+python portable.py -f "%programfiles%\deluge\deluged.exe"          -s "c:\program files\deluge\python.exe" -r pythonw.exe
+python portable.py -f "%programfiles%\deluge\deluged-debug.exe"    -s "c:\program files\deluge\python.exe" -r python.exe
+python portable.py -f "%programfiles%\deluge\deluge-web.exe"       -s "c:\program files\deluge\python.exe" -r pythonw.exe
+python portable.py -f "%programfiles%\deluge\deluge-web-debug.exe" -s "c:\program files\deluge\python.exe" -r python.exe
+python portable.py -f "%programfiles%\deluge\deluge.exe"           -s "c:\program files\deluge\pythonw.exe" -r pythonw.exe
+python portable.py -f "%programfiles%\deluge\deluge-debug.exe"     -s "c:\program files\deluge\python.exe" -r python.exe
+python portable.py -f "%programfiles%\deluge\deluge-gtk.exe"       -s "c:\program files\deluge\pythonw.exe" -r pythonw.exe
+python portable.py -f "%programfiles%\deluge\deluge-console.exe"   -s "c:\program files\deluge\python.exe" -r python.exe
 @rem Need to search and replace the 8.3 names too not to contain path, just executable
-python.exe portable.py -f "%programfiles%\deluge\deluged.exe"          -s "c:\progra~1\deluge\python.exe" -r pythonw.exe
-python.exe portable.py -f "%programfiles%\deluge\deluged-debug.exe"    -s "c:\progra~1\deluge\python.exe" -r python.exe
-python.exe portable.py -f "%programfiles%\deluge\deluge-web.exe"       -s "c:\progra~1\deluge\python.exe" -r pythonw.exe
-python.exe portable.py -f "%programfiles%\deluge\deluge-web-debug.exe" -s "c:\progra~1\deluge\python.exe" -r python.exe
-python.exe portable.py -f "%programfiles%\deluge\deluge.exe"           -s "c:\progra~1\deluge\pythonw.exe" -r pythonw.exe
-python.exe portable.py -f "%programfiles%\deluge\deluge-debug.exe"     -s "c:\progra~1\deluge\python.exe" -r python.exe
-python.exe portable.py -f "%programfiles%\deluge\deluge-gtk.exe"       -s "c:\progra~1\deluge\pythonw.exe" -r pythonw.exe
-python.exe portable.py -f "%programfiles%\deluge\deluge-console.exe"   -s "c:\progra~1\deluge\python.exe" -r python.exe
+python portable.py -f "%programfiles%\deluge\deluged.exe"          -s "c:\progra~1\deluge\python.exe" -r pythonw.exe
+python portable.py -f "%programfiles%\deluge\deluged-debug.exe"    -s "c:\progra~1\deluge\python.exe" -r python.exe
+python portable.py -f "%programfiles%\deluge\deluge-web.exe"       -s "c:\progra~1\deluge\python.exe" -r pythonw.exe
+python portable.py -f "%programfiles%\deluge\deluge-web-debug.exe" -s "c:\progra~1\deluge\python.exe" -r python.exe
+python portable.py -f "%programfiles%\deluge\deluge.exe"           -s "c:\progra~1\deluge\pythonw.exe" -r pythonw.exe
+python portable.py -f "%programfiles%\deluge\deluge-debug.exe"     -s "c:\progra~1\deluge\python.exe" -r python.exe
+python portable.py -f "%programfiles%\deluge\deluge-gtk.exe"       -s "c:\progra~1\deluge\pythonw.exe" -r pythonw.exe
+python portable.py -f "%programfiles%\deluge\deluge-console.exe"   -s "c:\progra~1\deluge\python.exe" -r python.exe
 
-python.exe fixdeluged.py
-python.exe fixdeluge-web.py
+python fixdeluged.py
+python fixdeluge-web.py
 
 xcopy /ehq "C:\deluge2\overlay" "%programfiles%\deluge"
 @rem This is no longer necessary
@@ -107,8 +111,8 @@ del "%programfiles%\deluge\Lib\site-packages\easy_install.py"
 del "%programfiles%\deluge\Lib\site-packages\PyWin32.chm"
 
 @rem Remove folders and files not used based on profiling deluge with process monitor.
-@for /f "delims=" %%i in ( FilesUnusedList.txt ) do @del /f /q "%programfiles%\deluge\%%i" || @echo ERROR Cannot delete: %%i
-@for /f "delims=" %%i in ( FoldersUnusedList.txt ) do @rd /s /q "%programfiles%\deluge\%%i" || @echo ERROR Cannot remove folder: %%i
+@for /f "delims=" %%i in ( FilesUnusedList.txt ) do @del /f /q "%programfiles%\deluge\%%i" || @echo ERROR Cannot delete: %programfiles%\deluge\%%i
+@for /f "delims=" %%i in ( FoldersUnusedList.txt ) do @rd /s /q "%programfiles%\deluge\%%i" || @echo ERROR Cannot remove folder: %programfiles%\deluge\%%i
 
 @rem removing all directories based on a list in a file above
 @rem rd /s /q "%programfiles%\deluge\Lib\site-packages\PIL"
@@ -131,8 +135,8 @@ for /f %%i in ('dir /b C:\deluge2\deluge-2* ^| findstr /v dev') do rd /s /q C:\d
 for /f %%i in ('dir /b C:\deluge2\deluge-2* ^| findstr /v dev') do rd /s /q C:\deluge2\%%i
 
 @rem Find out the version of OpenSSL and GTK3 used
-for /f %%i in ('powershell.exe "(Get-Item C:\deluge2\overlay\Lib\site-packages\libssl*.dll).VersionInfo" ^| findstr 1 ^| cut.exe -d ' ' -f1') do set opensslVersion=%%i
-for /f %%i in ('powershell.exe "(Get-Item C:\deluge2\overlay\data\bin\gtk-3*.dll).VersionInfo" ^| findstr 3 ^| cut.exe -d ' ' -f1') do set gtkVersion=%%i
+for /f %%i in ('powershell.exe "(Get-Item C:\deluge2\overlay\Lib\site-packages\libssl*.dll).VersionInfo" ^| findstr 1 ^| cut -d ' ' -f1') do set opensslVersion=%%i
+for /f %%i in ('powershell.exe "(Get-Item C:\deluge2\overlay\data\bin\gtk-3*.dll).VersionInfo" ^| findstr 3 ^| cut -d ' ' -f1') do set gtkVersion=%%i
 for /f %%i in ('dir /b C:\deluge2\overlay\Lib\site-packages\boost*.txt ^| sed "s/.txt//"') do set boostVersion=%%i
 for /f %%i in ('dir /b C:\deluge2\overlay\Lib\site-packages\lt*.txt ^| sed "s/.txt//"') do set ltVersion=%%i
 

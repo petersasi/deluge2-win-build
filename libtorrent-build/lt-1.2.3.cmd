@@ -13,7 +13,7 @@ set BOOST_BUILD_PATH=%BOOST_ROOT%\tools\build
 set PATH=%PATH%;%BOOST_BUILD_PATH%\src\engine\bin.ntx86;%BOOST_ROOT%;C:\python
 git clone https://github.com/arvidn/libtorrent -b libtorrent-1_2_3 C:/libtorrent
 for /f %%i in ('curl -s https://www.python.org/ ^| grep "Latest: " ^| cut -d/ -f5 ^| cut -d" " -f2 ^| tr -d "<"') do set var2=%%i
-curl.exe -O https://www.python.org/ftp/python/%var2%/python-%var2%-amd64.exe
+curl -O https://www.python.org/ftp/python/%var2%/python-%var2%-amd64.exe
 python-%var2%-amd64.exe /quiet InstallAllUsers=1 Include_test=0 InstallLauncherAllUsers=0 Include_launcher=0 TargetDir=C:\python
 call "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
 cd c:\boost

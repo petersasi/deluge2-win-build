@@ -19,7 +19,7 @@ set VSCMD_DEBUG=1
 for /f %%i in ('curl -s https://www.python.org/ ^| grep "Latest: " ^| cut -d/ -f5 ^| cut -d" " -f2 ^| tr -d "<"') do set var2=%%i
 for /f %%i in ('echo %var2% ^| cut -d. -f1-2 ^| tr -d .') do set PYTHONVER=%%i
 rem add -C - to curl so downloaded files are resumed / not downloaded again
-curl.exe -C - -O https://www.python.org/ftp/python/%var2%/python-%var2%-amd64.exe
+curl -C - -O https://www.python.org/ftp/python/%var2%/python-%var2%-amd64.exe
 
 python-%var2%-amd64.exe /quiet InstallAllUsers=1 Include_test=0 InstallLauncherAllUsers=0 Include_launcher=0 TargetDir=C:\python
 
@@ -37,7 +37,7 @@ cd C:\gtk-build\github\gvsbuild
 patch -p1 < "%~dp0gtk3.patch"
 pip install wheel
 python build.py -d build --gtk3-ver=3.24 --archives-download-dir=%DOWNLOAD_DIR% --vs-ver=%VS_VER% --platform=x64 --vs-install-path="%programfiles(x86)%\Microsoft Visual Studio\2019\BuildTools" --python-dir=C:\python -k --enable-gi --py-wheel --py-egg --python-ver=%var2% enchant gtk gtk3-full pycairo pygobject lz4 --skip gtksourceview3,emeus,clutter,adwaita-icon-theme --capture-out --print-out
-tar.exe -zcf gvsbuild-vs%VS_VER%-%PLATFORM%-%PYTHONVER%.tar.gz -C c:/gtk-build/gtk/x64 release
+tar -zcf gvsbuild-vs%VS_VER%-%PLATFORM%-%PYTHONVER%.tar.gz -C c:/gtk-build/gtk/x64 release
 cd "%~dp0"
 python-%var2%-amd64.exe /uninstall /quiet
 rd /s /q C:\python

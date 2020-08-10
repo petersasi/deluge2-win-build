@@ -26,7 +26,7 @@ for /f %%i in ('echo %BOOST_FOLDER% ^| sed "s/boost_//" ^| tr "_" "."') do set B
 curl -C - -LO https://dl.bintray.com/boostorg/release/%BOOST_VERSION%/source/%BOOST_ARCHIVE%
 
 @rem Decompress only one specific boost archive in the folder of this script, -aos for skip extraction if file is already there
-7z x %BOOST_ARCHIVE% -o"%~dp0" -aos
+7z x -aos %BOOST_ARCHIVE% -o%~dp0
 
 @rem try to link  the specific boost version's folder in this script's folder to C:\
 mklink /d C:\boost "%~dp0\%BOOST_FOLDER%"
