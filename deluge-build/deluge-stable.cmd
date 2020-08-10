@@ -47,7 +47,7 @@ python setup.py build_plugins
 copy deluge\plugins\*.egg "%programfiles%\deluge\Lib\site-packages\deluge\plugins"
 
 call lib\printc info "Finding and downloading the latest YaRSS2 plugin"
-for /f "usebackq" %%i in (`curl -s https://bitbucket.org/bendikro/deluge-yarss-plugin/downloads/^|grep "YaRSS2.*-py3\.[789]\.egg"^|head -n1^|cut -d'^"' -f2`) do curl -C - -o YaRSS2-2.x.x-py3.8.egg https://bitbucket.org%%i
+for /f "usebackq" %%i in (`curl -s https://bitbucket.org/bendikro/deluge-yarss-plugin/downloads/^|grep "YaRSS2.*-py3\.[789]\.egg"^|head -n1^|cut -d'^"' -f2`) do wget -O YaRSS2-2.x.x-py3.8.egg https://bitbucket.org%%i
 copy YaRSS2-2.x.x-py3.8.egg "%programfiles%\deluge\Lib\site-packages\deluge\plugins"
 
 cd "%~dp0"
