@@ -40,4 +40,4 @@ rem del auto-install.js msys2-x86_64-latest.tar* Win64OpenSSL-1_1_1g.exe nsis-3.
 rd /s /q nsprocess
 rd /s /q nsprocess
 
-call createlinks.cmd
+call lib/createlinks.cmd
