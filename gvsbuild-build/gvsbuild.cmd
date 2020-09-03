@@ -36,7 +36,7 @@ git clone https://github.com/wingtk/gvsbuild C:\gtk-build\github\gvsbuild
 cd C:\gtk-build\github\gvsbuild
 patch -p1 < "%~dp0gtk3.patch"
 pip install wheel
-python build.py -d build --gtk3-ver=3.24 --archives-download-dir=%DOWNLOAD_DIR% --vs-ver=%VS_VER% --platform=x64 --vs-install-path="%programfiles(x86)%\Microsoft Visual Studio\2019\BuildTools" --python-dir=C:\python -k --enable-gi --py-wheel --py-egg --python-ver=%var2% enchant gtk gtk3-full pycairo pygobject lz4 --skip gtksourceview3,emeus,clutter,adwaita-icon-theme --capture-out --print-out
+python build.py -d build --gtk3-ver=3.24 --archives-download-dir=%DOWNLOAD_DIR% --vs-ver=%VS_VER% --platform=x64 --vs-install-path="%programfiles(x86)%\Microsoft Visual Studio\2019\BuildTools" --python-dir=C:\python -k --enable-gi --py-wheel --python-ver=%var2% enchant gtk3-full pycairo pygobject lz4 --skip gtksourceview3,emeus,clutter,adwaita-icon-theme --capture-out --print-out
 tar -zcf gvsbuild-vs%VS_VER%-%PLATFORM%-%PYTHONVER%.tar.gz -C c:/gtk-build/gtk/x64 release
 cd "%~dp0"
 python-%var2%-amd64.exe /uninstall /quiet
@@ -57,6 +57,7 @@ del C:\gtk-build\gtk\x64\release\etc\gtk-3.0\im-multipress.conf
 del C:\gtk-build\gtk\x64\release\lib\harfbuzz.lib
 del C:\gtk-build\gtk\x64\release\lib\*.pdb
 del C:\gtk-build\gtk\x64\release\lib\enchant\*.pdb
+move /y C:\gtk-build\gtk\x64\release\python\*.whl C:\deluge2\deluge-build
 rd /s /q C:\gtk-build\gtk\x64\release\include 
 rd /s /q C:\gtk-build\gtk\x64\release\libexec
 rd /s /q C:\gtk-build\gtk\x64\release\python
