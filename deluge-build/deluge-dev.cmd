@@ -26,8 +26,8 @@ call lib\initpath
 @pip install wheel || @echo ERROR installing wheel using pip!
 
 @echo Install additional packages necessary using pip
-@for /f %%i in ('dir /b pycairo-*-win_amd64.whl') do pip install %%i || @echo ERROR installing local pycairo using pip!
-@for /f %%i in ('dir /b PyGObject-*-win_amd64.whl') do pip install %%i || @echo ERROR installing local PyGObject using pip!
+@for /f %%i in ('dir /b pycairo-*-win_amd64.whl') do @pip install %%i || @echo ERROR installing local pycairo using pip!
+@for /f %%i in ('dir /b PyGObject-*-win_amd64.whl') do @pip install %%i || @echo ERROR installing local PyGObject using pip!
 @pip install pygeoip									|| @echo ERROR installing PyGeoIP using pip!
 @pip install future										|| @echo ERROR installing future using pip!
 @pip install requests									|| @echo ERROR installing windows-curses using pip!
