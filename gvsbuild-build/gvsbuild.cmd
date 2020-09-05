@@ -57,6 +57,8 @@ del C:\gtk-build\gtk\x64\release\etc\gtk-3.0\im-multipress.conf
 del C:\gtk-build\gtk\x64\release\lib\harfbuzz.lib
 del C:\gtk-build\gtk\x64\release\lib\*.pdb
 del C:\gtk-build\gtk\x64\release\lib\enchant\*.pdb
+del C:\deluge2\deluge-build\pycairo-*-win_amd64.whl
+del C:\deluge2\deluge-build\PyGObject-*-win_amd64.whl
 move /y C:\gtk-build\gtk\x64\release\python\*.whl C:\deluge2\deluge-build
 rd /s /q C:\gtk-build\gtk\x64\release\include 
 rd /s /q C:\gtk-build\gtk\x64\release\libexec
