@@ -27,8 +27,8 @@ python -m pip install --upgrade pip
 @rem Using legacy 'setup.py install' for rencode, since package 'wheel' is not installed.
 pip install wheel
 
-pip install pycairo-1.19.1-cp38-cp38-win_amd64.whl
-pip install PyGObject-3.36.0-cp38-cp38-win_amd64.whl
+for /f %%i in ('dir /b pycairo-*-win_amd64.whl') do pip install %%i
+for /f %%i in ('dir /b PyGObject-*-win_amd64.whl') do pip install %%i
 pip install pygeoip
 pip install future
 pip install requests
