@@ -3,7 +3,7 @@
 @rem 2020 Peter Sasi user of the Deluge Forum https://forum.deluge-torrent.org/
 
 cd "%~dp0"
-call lib\initpath
+call ..\lib\initpath
 
 curl -LO https://dl.bintray.com/boostorg/release/1.70.0/source/boost_1_70_0.7z
 7z x boost_*.7z -oC:
