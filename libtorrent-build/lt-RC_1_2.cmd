@@ -88,4 +88,4 @@ rd /s /q C:\python
 @rem let'a not remove so that download can be resumed / skipped on next run
 @rem del python*.exe boost_*.7z
 
-call lib\restorepath
+call ..\lib\restorepath
