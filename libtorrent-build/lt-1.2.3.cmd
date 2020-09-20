@@ -34,4 +34,4 @@ rd /s /q C:\python 2>nul
 del python*.exe boost_*.7z
 pause
 
-call lib\restorepath
+call ..\lib\restorepath
