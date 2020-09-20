@@ -68,6 +68,7 @@ python setup.py build --bjam
 @rem del "%programfiles(x86)%\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.26.28801\bin\Hostx64\vcvarsall.bat"
 
 @rem Put the freshly made libtorrent python lib in its place
+md C:\deluge2\overlay\Lib\site-packages 2> nul
 copy /y libtorrent.pyd C:\deluge2\overlay\Lib\site-packages & del /f /q C:\deluge2\overlay\Lib\site-packages\boost*.txt C:\deluge2\overlay\Lib\site-packages\lt*.txt
 @rem ...and save there what were the boost ad libtorrent versions used to build it
 echo %BOOST_VERSION% > C:\deluge2\overlay\Lib\site-packages\boost%BOOST_VERSION%.txt
