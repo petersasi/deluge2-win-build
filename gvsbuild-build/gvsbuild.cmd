@@ -93,6 +93,10 @@ move C:\gtk-build\logs\gvsbuild-log.txt C:\deluge2\gvsbuild-build
 
 rd /s /q C:\gtk-build
 rd /s /q C:\gtk-build
+rd /s /q C:\gtk-cache
+rd /s /q C:\gtk-cache
+rd /s /q C:\ffmpeg
+rd /s /q C:\ffmpeg
 for /f %%i in ('dir /b C:\deluge2\deluge-2* ^| findstr /v dev') do rd /s /q C:\deluge2\%%i\data
 for /f %%i in ('dir /b C:\deluge2\deluge-2* ^| findstr /v dev') do rd /s /q C:\deluge2\%%i\data
 for /f %%i in ('dir /b C:\deluge2\deluge-2* ^| findstr dev') do rd /s /q C:\deluge2\%%i\data
