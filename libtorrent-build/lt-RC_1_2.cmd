@@ -3,7 +3,7 @@
 @rem 2020 Peter Sasi user of the Deluge Forum https://forum.deluge-torrent.org/
 
 cd "%~dp0"
-call lib\initpath
+call ..\lib\initpath
 
 @rem Prepare variables for boost building (ROOT and BUILD_PATH)
 set BOOST_ROOT=c:\boost
