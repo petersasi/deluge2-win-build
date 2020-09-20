@@ -19,7 +19,7 @@ call "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliar
 cd c:\boost
 call bootstrap.bat
 cd "%~dp0"
-patch C:/libtorrent/bindings/python/setup.py < 1.2-setup.patch
+patch C:/libtorrent/bindings/python/setup.py < 1.2-setup-V3.patch
 cd C:\libtorrent\bindings\python
 python setup.py build --bjam
 move /y libtorrent.pyd C:\deluge2\libtorrent\lt1.2.3\Lib\site-packages
