@@ -143,7 +143,7 @@ for /f %%i in ('dir /b C:\deluge2\overlay\Lib\site-packages\lt*.txt ^| sed "s/.t
 
 @rem Copy the "finalized" (frozen) deluge folder to our own build directory indicating versions
 xcopy /ehq "%programfiles%\deluge" "C:\deluge2\deluge-%delugeVersion%-%ltVersion%-%boostVersion%-py%pythonVersion%-ossl%opensslVersion%-GTK%gtkVersion%\"
-
+echo build_version = "%delugeVersion%" > C:\deluge2\nsis\packaging\win32\VERSION.tmp
 @rem Uninstall python 
 python-%pythonVersion%-amd64.exe /uninstall /quiet
 if exist "%programfiles%\deluge" rd /s /q "%programfiles%\deluge"
