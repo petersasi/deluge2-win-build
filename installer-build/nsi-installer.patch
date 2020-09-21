@@ -1,0 +1,38 @@
+--- deluge-win32-installer.nsi	2020-09-21 13:54:52.272385700 -0400
++++ deluge-win32-installer-2.nsi	2020-09-21 13:51:09.683238000 -0400
+@@ -19,11 +19,11 @@
+    !error "Program Version Undefined"
+ !endif
+ !define PROGRAM_WEB_SITE "http://deluge-torrent.org"
+-!define LICENSE_FILEPATH "..\..\LICENSE"
++!define LICENSE_FILEPATH "LICENSE"
+ 
+ # Python files generated with bbfreeze
+-!define BUILD_DIR "build-win32"
+-!define BBFREEZE_DIR "${BUILD_DIR}\deluge-bbfreeze-${PROGRAM_VERSION}"
++!define BUILD_DIR "${srcdir}"
++!define BBFREEZE_DIR "${srcdir}"
+ !define INSTALLER_FILENAME "deluge-${PROGRAM_VERSION}-win32-setup.exe"
+ 
+ # Set default compressor
+@@ -34,7 +34,7 @@
+ # Modern User Interface 2
+ !include MUI2.nsh
+ # Installer
+-!define MUI_ICON "..\..\deluge\ui\data\pixmaps\deluge.ico"
++!define MUI_ICON "deluge.ico"
+ !define MUI_HEADERIMAGE
+ !define MUI_HEADERIMAGE_RIGHT
+ !define MUI_HEADERIMAGE_BITMAP "installer-top.bmp"
+ 
+  # Set default compressor
+@@ -151,7 +151,7 @@
+ 
+ BrandingText "${PROGRAM_NAME} Windows Installer v${DELUGE_INSTALLER_VERSION}"
+ Name "${PROGRAM_NAME} ${PROGRAM_VERSION}"
+-OutFile "${BUILD_DIR}\${INSTALLER_FILENAME}"
++OutFile "C:\deluge2\${INSTALLER_FILENAME}"
+ InstallDir "$PROGRAMFILES\Deluge"
+ 
+ ShowInstDetails show
+

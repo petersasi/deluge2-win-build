@@ -37,7 +37,15 @@
 
 	@call lib\printc info "Downloading and unzipping latest GeoIP.dat into the source folder."
 	@curl https://dl.miyuru.lk/geoip/maxmind/country/maxmind4.dat.gz | 7z x -si -tgzip -so > C:\deluge2\%sourceFolder%\GeoIP.dat
-
+	patch "C:\deluge2\nsis\packaging\win32\deluge-win32-installer.nsi" < nsi-installer.patch
+	@for /f %%i in ('curl -s https://www.python.org/ ^| grep "Latest: " ^| cut -d/ -f5 ^| cut -d" " -f2 ^| tr -d "<"') do set var2=%%i
+	curl -O https://www.python.org/ftp/python/%var2%/python-%var2%-amd64.exe
+	set PATH=%PATH%;C:\python
+	python-%var2%-amd64.exe /quiet InstallAllUsers=1 Include_test=0 InstallLauncherAllUsers=0 Include_launcher=0 TargetDir=C:\python
+	python generate-filelists.py "C:\deluge2\%sourceFolder%"
+	python-%var2%-amd64.exe /uninstall /quiet
+	rd /s /q C:\python 2>nul
+	rd /s /q C:\python 2>nul
 	@call lib\printc info "Starting NSIS build."
 	@"C:\Program Files (x86)\NSIS\makensis" /DPROGRAM_VERSION=%sourceFolder:~7% /Dsrcdir=C:\deluge2\%sourceFolder% C:\deluge2\nsis\packaging\win32\deluge-installer.nsi
 
