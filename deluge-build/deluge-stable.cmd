@@ -51,6 +51,7 @@ for /f "usebackq" %%i in (`curl -s https://bitbucket.org/bendikro/deluge-yarss-p
 copy YaRSS2-2.x.x-py3.8.egg "%programfiles%\deluge\Lib\site-packages\deluge\plugins"
 xcopy /ehq packaging\win32\ C:\deluge2\nsis\packaging\win32\
 copy deluge\ui\data\pixmaps\deluge.ico C:\deluge2\nsis\packaging\win32\deluge.ico
+copy LICENSE C:\deluge2\nsis\packaging\win32\LICENSE
 
 cd "%~dp0"
 if exist deluge rd /s /q deluge
