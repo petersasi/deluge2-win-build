@@ -37,7 +37,7 @@
 
 	@call lib\printc info "Downloading and unzipping latest GeoIP.dat into the source folder."
 	@curl https://dl.miyuru.lk/geoip/maxmind/country/maxmind4.dat.gz | 7z x -si -tgzip -so > C:\deluge2\%sourceFolder%\GeoIP.dat
-
+	patch "C:\deluge2\nsis\packaging\win32\deluge-win32-installer.nsi" < nsi-installer.patch
 	@call lib\printc info "Starting NSIS build."
 	@"C:\Program Files (x86)\NSIS\makensis" /DPROGRAM_VERSION=%sourceFolder:~7% /Dsrcdir=C:\deluge2\%sourceFolder% C:\deluge2\nsis\packaging\win32\deluge-installer.nsi
 
