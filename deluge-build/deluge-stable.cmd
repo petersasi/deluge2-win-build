@@ -49,6 +49,9 @@ copy deluge\plugins\*.egg "%programfiles%\deluge\Lib\site-packages\deluge\plugin
 call lib\printc info "Finding and downloading the latest YaRSS2 plugin"
 for /f "usebackq" %%i in (`curl -s https://bitbucket.org/bendikro/deluge-yarss-plugin/downloads/^|grep "YaRSS2.*-py3\.[789]\.egg"^|head -n1^|cut -d'^"' -f2`) do wget -O YaRSS2-2.x.x-py3.8.egg https://bitbucket.org%%i
 copy YaRSS2-2.x.x-py3.8.egg "%programfiles%\deluge\Lib\site-packages\deluge\plugins"
+xcopy /ehq packaging\win32\ C:\deluge2\nsis\packaging\win32\
+copy deluge\ui\data\pixmaps\deluge.ico C:\deluge2\nsis\packaging\win32\deluge.ico
+copy LICENSE C:\deluge2\nsis\packaging\win32\LICENSE
 
 cd "%~dp0"
 if exist deluge rd /s /q deluge
@@ -143,6 +146,7 @@ for /f %%i in ('dir /b C:\deluge2\overlay\Lib\site-packages\lt*.txt ^| sed "s/.t
 
 @rem Copy the "finalized" (frozen) deluge folder to our own build directory indicating versions
 xcopy /ehq "%programfiles%\deluge" "C:\deluge2\deluge-%delugeVersion%-%ltVersion%-%boostVersion%-py%pythonVersion%-ossl%opensslVersion%-GTK%gtkVersion%\"
+echo build_version = "%delugeVersion%" > C:\deluge2\nsis\packaging\win32\VERSION.tmp
 
 @rem Uninstall python 
 python-%pythonVersion%-amd64.exe /uninstall /quiet
