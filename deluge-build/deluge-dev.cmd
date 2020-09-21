@@ -54,6 +54,7 @@ copy deluge\plugins\*.egg "%programfiles%\deluge\Lib\site-packages\deluge\plugin
 call lib\printc info "Finding and downloading the latest YaRSS2 plugin"
 for /f "usebackq" %%i in (`curl -s https://bitbucket.org/bendikro/deluge-yarss-plugin/downloads/^|grep "YaRSS2.*-py3\.[789]\.egg"^|head -n1^|cut -d'^"' -f2`) do wget -O YaRSS2-2.x.x-py3.8.egg https://bitbucket.org%%i
 copy YaRSS2-2.x.x-py3.8.egg "%programfiles%\deluge\Lib\site-packages\deluge\plugins"
+xcopy /ehq packaging\win32\ C:\deluge2\nsis\packaging\win32\
 
 cd "%~dp0"
 if exist deluge rd /s /q deluge
