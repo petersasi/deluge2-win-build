@@ -1,0 +1,20 @@
+--- deluge-win32-installer.nsi	2020-09-20 21:32:58.123550300 -0400
++++ deluge-win32-installer-2.nsi	2020-09-20 21:26:53.408268600 -0400
+@@ -19,7 +19,7 @@
+    !error "Program Version Undefined"
+ !endif
+ !define PROGRAM_WEB_SITE "http://deluge-torrent.org"
+-!define LICENSE_FILEPATH "..\..\LICENSE"
++!define LICENSE_FILEPATH "LICENSE"
+ 
+ # Python files generated with bbfreeze
+ !define BUILD_DIR "build-win32"
+@@ -34,7 +34,7 @@
+ # Modern User Interface 2
+ !include MUI2.nsh
+ # Installer
+-!define MUI_ICON "..\..\deluge\ui\data\pixmaps\deluge.ico"
++!define MUI_ICON "deluge.ico"
+ !define MUI_HEADERIMAGE
+ !define MUI_HEADERIMAGE_RIGHT
+ !define MUI_HEADERIMAGE_BITMAP "installer-top.bmp"
