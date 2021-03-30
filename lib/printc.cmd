@@ -1,5 +1,5 @@
-@rem This script is Copyright 
-@rem 2020 Peter Sasi user of the Deluge Forum https://forum.deluge-torrent.org/
+@rem This script is Copyright
+@rem 2020-2021 Peter Sasi user of the Deluge Forum https://forum.deluge-torrent.org/
 
 @for /F "tokens=1,2 delims=#" %%a ^
 in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') ^
@@ -26,6 +26,13 @@ do @set ESC=%%b
 :blue
 	@shift /1
 	@echo %ESC%[34m%prefixStr%%~1%ESC%[0m
+@goto common
+
+:value
+	@call :initprefix VALUE
+:yellow
+	@shift /1
+	@echo %ESC%[93m%prefixStr%%~1%ESC%[0m
 @goto common
 
 :common

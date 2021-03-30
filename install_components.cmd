@@ -1,13 +1,7 @@
-@rem This script is Copyright 
-@rem 2019-2020 Martin Herz (mherz-Denmark) user of the Deluge Forum https://forum.deluge-torrent.org/
-@rem 2020 Peter Sasi user of the Deluge Forum https://forum.deluge-torrent.org/
-
-cd "%~dp0"
-
-rem now there is a separate openssl-build folder the always download the latest version, use that!
-rem added -C - so that it is resumed / not redownloaded
-rem curl -C - -O https://slproweb.com/download/Win64OpenSSL-1_1_1g.exe
-rem Win64OpenSSL-1_1_1g.exe /dir="C:\OpenSSL-Win64" /verysilent
+@pushd "%~dp0"
+@call lib\printc green "This script is Copyright"
+@call lib\printc green "2019-2020 Martin Hertz (mhertz-Denmark) user of the Deluge Forum https://forum.deluge-torrent.org/"
+@call lib\printc green "2020-2021 Peter Sasi user of the Deluge Forum https://forum.deluge-torrent.org/"
 
 rem added -C - so that it is resumed / not redownloaded
 curl -C - -O http://repo.msys2.org/distrib/msys2-x86_64-latest.tar.xz
@@ -40,4 +34,5 @@ rem del auto-install.js msys2-x86_64-latest.tar* Win64OpenSSL-1_1_1g.exe nsis-3.
 rd /s /q nsprocess
 rd /s /q nsprocess
 
-call lib/createlinks.cmd
+call lib\createlinks.cmd
+popd

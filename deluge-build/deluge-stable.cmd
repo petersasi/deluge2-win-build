@@ -5,48 +5,49 @@
 @cd "%~dp0"
 call lib\initpath
 
-@rem Find out what is the latest python version Released
-for /f %%i in ('curl -s https://www.python.org/ ^| grep "Latest: " ^| cut -d/ -f5 ^| cut -d" " -f2 ^| tr -d "<"') do set pythonVersion=%%i
-
+@call lib\printc info "Find out what is the latest python version Released"
+@for /f %%i in ('curl -s https://www.python.org/ ^| grep "Latest: " ^| cut -d/ -f5 ^| cut -d" " -f2 ^| tr -d "<"') do @set pythonVersion=%%i
+@call lib\printc info "Latest Python version scraped from web is %pythonVersion%"
+ 
 @rem Download that python version, add -C - so that download is resumed / skipped
-curl -C - -O https://www.python.org/ftp/python/%pythonVersion%/python-%pythonVersion%-amd64.exe
+curl -C - -O https://www.python.org/ftp/python/%pythonVersion%/python-%pythonVersion%-amd64.exe || @call lib\printc error "Python installer download failed" && exit /B 1
 
 @rem Install python creating a Program Files\deluge folder
-python-%pythonVersion%-amd64.exe /quiet InstallAllUsers=1 Include_test=0 InstallLauncherAllUsers=0 Include_launcher=0 TargetDir="%programfiles%\deluge"
+python-%pythonVersion%-amd64.exe /quiet InstallAllUsers=1 Include_test=0 InstallLauncherAllUsers=0 Include_launcher=0 TargetDir="%programfiles%\deluge" || @call lib\printc error "Python install failed" && exit /B 1
 
 @rem Add it to the PATH, with the 8.3 version of the filename, so that the plugin building setup.py does not fail
 set PATH=C:\PROGRA~1\deluge\Scripts;C:\PROGRA~1\deluge;%PATH%
 
 @rem upgrade pip as suggested by itself when the old version is run
-python -m pip install --upgrade pip
+python -m pip install --upgrade pip  || @call lib\printc error "PIP upgrade failed" && exit /B 1
 
-@rem Install Wheel to avoid buld warning like:
-@rem WARNING: The wheel package is not available.
-@rem Using legacy 'setup.py install' for setproctitle, since package 'wheel' is not installed.
-@rem Using legacy 'setup.py install' for twisted, since package 'wheel' is not installed.
-@rem Using legacy 'setup.py install' for rencode, since package 'wheel' is not installed.
-pip install wheel
+@echo Install Wheel to avoid buld warnings
+pip install wheel || @call lib\printc error "Wheel install failed" && exit /B 1
 
-for /f %%i in ('dir /b pycairo-*-win_amd64.whl') do pip install %%i
-for /f %%i in ('dir /b PyGObject-*-win_amd64.whl') do pip install %%i
-pip install pygeoip
-pip install future
-pip install requests
-pip install windows-curses
+@echo Install additional packages necessary using pip
+@for /f %%i in ('dir /b pycairo-*-win_amd64.whl') do @pip install %%i || @call lib\printc error "PyCairo install failed" && exit /B 1
+@for /f %%i in ('dir /b PyGObject-*-win_amd64.whl') do @pip install %%i || @call lib\printc error "PyGObject install failed" && exit /B 1
+pip install pygeoip || @call lib\printc error "PyGeoIP install failed" && exit /B 1
+pip install future || @call lib\printc error "Future install failed" && exit /B 1
+pip install requests || @call lib\printc error "Requests install failed" && exit /B 1
+
+@echo Install windows-curses to make deluge-console usable
+pip install windows-curses || @call lib\printc error "Windows-curses install failed" && exit /B 1
 
 @rem Use the installers with better windows integration
 copy /y ..\loaders\* "%programfiles%\Deluge\Lib\site-packages\pip\_vendor\distlib"
 
-pip install git+https://github.com/deluge-torrent/deluge@master
-git clone https://github.com/deluge-torrent/deluge -b master
+pip install git+https://github.com/deluge-torrent/deluge@master || @call lib\printc error "Deluge install from git failed" && exit /B 1
+git clone https://github.com/deluge-torrent/deluge -b master || @call lib\printc error "Deluge git clone for plugin-bulding failed" && exit /B 1
 cd deluge
 python version.py
 set /p delugeVersion=<RELEASE-VERSION
+@call %~dp0\lib\printc info "Deluge version is %delugeVersion%"
 
-python setup.py build_plugins
+python setup.py build_plugins || @call %~dp0\lib\printc error "Build of Deluge plugins failed" && exit /B 1
 copy deluge\plugins\*.egg "%programfiles%\deluge\Lib\site-packages\deluge\plugins"
 
-call lib\printc info "Finding and downloading the latest YaRSS2 plugin"
+call %~dp0\lib\printc info "Finding and downloading the latest YaRSS2 plugin"
 for /f "usebackq" %%i in (`curl -s https://bitbucket.org/bendikro/deluge-yarss-plugin/downloads/^|grep "YaRSS2.*-py3\.[789]\.egg"^|head -n1^|cut -d'^"' -f2`) do wget -O YaRSS2-2.x.x-py3.8.egg https://bitbucket.org%%i
 copy YaRSS2-2.x.x-py3.8.egg "%programfiles%\deluge\Lib\site-packages\deluge\plugins"
 
@@ -54,22 +55,22 @@ cd "%~dp0"
 if exist deluge rd /s /q deluge
 if exist deluge rd /s /q deluge
 
-patch "%programfiles%/deluge/Lib/site-packages/twisted/internet/_glibbase.py" < _glibbase.patch
-patch "%programfiles%/deluge/Lib/site-packages/deluge/ui/client.py" < client.patch
-patch "%programfiles%/deluge/Lib/site-packages/deluge/i18n/util.py" < util.patch
-patch "%programfiles%/deluge/Lib/site-packages/deluge/ui/gtk3/common.py" < common.patch
-patch "%programfiles%/deluge/Lib/site-packages/deluge/core/preferencesmanager.py" < preferencesmanager.patch
-patch "%programfiles%/deluge/Lib/site-packages/deluge/core/torrentmanager.py" < 2.0.3-torrentmanager.patch
-patch "%programfiles%/deluge/Lib/site-packages/deluge/argparserbase.py" < 2.0.3-argparserbase.patch
-patch "%programfiles%/deluge/Lib/site-packages/deluge/ui/gtk3/glade/main_window.tabs.ui" < 2.0.3-main_window.tabs.ui.patch
-patch "%programfiles%/deluge/Lib/site-packages/deluge/log.py" < 2.0.3-log.patch
-patch "%programfiles%/deluge/Lib/site-packages/deluge/ui/console/main.py" < consoleUIonWin.patch
-patch "%programfiles%/deluge/Lib/site-packages/deluge/ui/console/modes/basemode.py" < consoleCommandLineOnWin.patch
-patch -d "%programfiles%/deluge/Lib/site-packages" -p1 --no-backup-if-mismatch < 543a91bd9b06ceb3eee35ff4e7e8f0225ee55dc5-fixed.patch
-curl https://git.deluge-torrent.org/deluge/patch/?id=4b29436cd5eabf9af271f3fa6250cd7c91cdbc9d | patch -d "%programfiles%/deluge/Lib/site-packages" -p1 --no-backup-if-mismatch
-patch "%programfiles%/Deluge2/Lib/site-packages/deluge/log.py" < logging.patch
-patch -R "%programfiles%/deluge/Lib/site-packages/cairo/__init__.py" < pycairo_py3_8_load_dll.patch
-patch -R "%programfiles%/deluge/Lib/site-packages/gi/__init__.py" < pygobject_py3_8_load_dll.patch
+patch "%programfiles%/deluge/Lib/site-packages/twisted/internet/_glibbase.py" < _glibbase.patch || @call lib\printc error "Patching failed" && exit /B 1
+patch "%programfiles%/deluge/Lib/site-packages/deluge/ui/client.py" < client.patch || @call lib\printc error "Patching failed" && exit /B 1
+patch "%programfiles%/deluge/Lib/site-packages/deluge/i18n/util.py" < util.patch || @call lib\printc error "Patching failed" && exit /B 1
+patch "%programfiles%/deluge/Lib/site-packages/deluge/ui/gtk3/common.py" < common.patch || @call lib\printc error "Patching failed" && exit /B 1
+patch "%programfiles%/deluge/Lib/site-packages/deluge/core/preferencesmanager.py" < preferencesmanager.patch || @call lib\printc error "Patching failed" && exit /B 1
+patch "%programfiles%/deluge/Lib/site-packages/deluge/core/torrentmanager.py" < 2.0.3-torrentmanager.patch || @call lib\printc error "Patching failed" && exit /B 1
+patch "%programfiles%/deluge/Lib/site-packages/deluge/argparserbase.py" < 2.0.3-argparserbase.patch || @call lib\printc error "Patching failed" && exit /B 1
+patch "%programfiles%/deluge/Lib/site-packages/deluge/ui/gtk3/glade/main_window.tabs.ui" < 2.0.3-main_window.tabs.ui.patch || @call lib\printc error "Patching failed" && exit /B 1
+patch "%programfiles%/deluge/Lib/site-packages/deluge/log.py" < 2.0.3-log.patch || @call lib\printc error "Patching failed" && exit /B 1
+patch "%programfiles%/deluge/Lib/site-packages/deluge/ui/console/main.py" < consoleUIonWin.patch || @call lib\printc error "Patching failed" && exit /B 1
+patch "%programfiles%/deluge/Lib/site-packages/deluge/ui/console/modes/basemode.py" < consoleCommandLineOnWin.patch || @call lib\printc error "Patching failed" && exit /B 1
+patch -d "%programfiles%/deluge/Lib/site-packages" -p1 --no-backup-if-mismatch < 543a91bd9b06ceb3eee35ff4e7e8f0225ee55dc5-fixed.patch || @call lib\printc error "Patching failed" && exit /B 1
+curl https://git.deluge-torrent.org/deluge/patch/?id=4b29436cd5eabf9af271f3fa6250cd7c91cdbc9d | patch -d "%programfiles%/deluge/Lib/site-packages" -p1 --no-backup-if-mismatch || @call lib\printc error "Patching failed" && exit /B 1
+patch "%programfiles%/deluge/Lib/site-packages/deluge/log.py" < logging.patch || @call lib\printc error "Patching failed" && exit /B 1
+patch -R "%programfiles%/deluge/Lib/site-packages/cairo/__init__.py" < pycairo_py3_8_load_dll.patch || @call lib\printc error "Patching failed" && exit /B 1
+patch -R "%programfiles%/deluge/Lib/site-packages/gi/__init__.py" < pygobject_py3_8_load_dll.patch || @call lib\printc error "Patching failed" && exit /B 1
 
 copy "%programfiles%\deluge\Scripts\deluge.exe" "%programfiles%\deluge"
 copy "%programfiles%\deluge\Scripts\deluge-console.exe" "%programfiles%\deluge"
@@ -142,7 +143,7 @@ for /f %%i in ('dir /b C:\deluge2\overlay\Lib\site-packages\boost*.txt ^| sed "s
 for /f %%i in ('dir /b C:\deluge2\overlay\Lib\site-packages\lt*.txt ^| sed "s/.txt//"') do set ltVersion=%%i
 
 @rem Copy the "finalized" (frozen) deluge folder to our own build directory indicating versions
-xcopy /ehq "%programfiles%\deluge" "C:\deluge2\deluge-%delugeVersion%-%ltVersion%-%boostVersion%-py%pythonVersion%-ossl%opensslVersion%-GTK%gtkVersion%\"
+xcopy /ehq "%programfiles%\deluge" "C:\deluge2\deluge-%delugeVersion%-%ltVersion:~0,8%-%boostVersion:~0,9%-py%pythonVersion%-ossl%opensslVersion%-GTK%gtkVersion%\"
 
 @rem Uninstall python 
 python-%pythonVersion%-amd64.exe /uninstall /quiet

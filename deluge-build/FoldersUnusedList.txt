@@ -1,4 +1,3 @@
-\Doc
 \Lib\ctypes\test
 \Lib\distutils
 \Lib\ensurepip
@@ -28,6 +27,8 @@
 \Lib\site-packages\twisted\mail\test
 \Lib\site-packages\twisted\names\test
 \Lib\site-packages\twisted\pair\test
+\Lib\site-packages\adodbapi\examples
+\Lib\site-packages\exampleproj
 \Lib\site-packages\twisted\persisted\test
 \Lib\site-packages\twisted\positioning\test
 \Lib\site-packages\twisted\protocols\haproxy\test
@@ -61,9 +62,8 @@
 \Lib\site-packages\zope\interface\common\tests
 \Lib\site-packages\zope\interface\tests
 \Lib\sqlite3\test
-\Lib\tkinter\test
-\Lib\turtledemo
 \Lib\unittest
+\Scripts
 \Tools
 \data\lib\gobject-introspection
 \data\share\icons\Adwaita\16x16\legacy
@@ -77,8 +77,8 @@
 \data\share\icons\Adwaita\8x8\legacy
 \data\share\icons\Adwaita\96x96\legacy
 \data\share\icons\Adwaita\scalable\legacy
-\Lib\idlelib
 \include
 \libs
-\site-packages\PIL
-\tcl
+\Lib\site-packages\PIL
+\Lib\site-packages\isapi\samples
+\Lib\site-packages\twisted\trial

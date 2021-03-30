@@ -1,91 +1,60 @@
-@rem This script is Copyright 
-@rem 2019-2020 Martin Herz (mherz-Denmark) user of the Deluge Forum https://forum.deluge-torrent.org/
-@rem 2020 Peter Sasi user of the Deluge Forum https://forum.deluge-torrent.org/
+@cd "%~dp0"
+@call lib\printc green "This script is Copyright:"
+@call lib\printc green "2019-2020 Martin Herz (mherz-Denmark) user of the Deluge Forum https://forum.deluge-torrent.org/"
+@call lib\printc green "2020-2021 Peter Sasi user of the Deluge Forum https://forum.deluge-torrent.org/"
 
-cd "%~dp0"
-call lib\initpath
+@call lib\printc info "Prepare variables for boost building (ROOT and BUILD_PATH) and download"
+@set BOOST_ROOT=c:\boost
+@set BOOST_BUILD_PATH=%BOOST_ROOT%\tools\build
+@set BOOST_FOLDER=boost_1_75_0
+@set BOOST_ARCHIVE=%BOOST_FOLDER%.7z
+@for /f %%i in ('echo %BOOST_FOLDER% ^| sed "s/boost_//" ^| tr "_" "."') do set BOOST_VERSION=%%i
 
-@rem Prepare variables for boost building (ROOT and BUILD_PATH)
-set BOOST_ROOT=c:\boost
-set BOOST_BUILD_PATH=%BOOST_ROOT%\tools\build
-set PATH=%PATH%;%BOOST_BUILD_PATH%\src\engine;%BOOST_ROOT%;C:\python
+@call lib\initpath "%BOOST_BUILD_PATH%\src\engine;%BOOST_ROOT%"
+@call lib\initPython.cmd C:\python
 
-@rem Scrape the latest python version from the main web page
-for /f %%i in ('curl -s https://www.python.org/ ^| grep "Latest: " ^| cut -d/ -f5 ^| cut -d" " -f2 ^| tr -d "<"') do set var2=%%i
-@rem add -C - so that download is resumed / skipped
-curl -C - -O https://www.python.org/ftp/python/%var2%/python-%var2%-amd64.exe
-@rem Install the downloaded python version
-python-%var2%-amd64.exe /quiet InstallAllUsers=1 Include_test=0 InstallLauncherAllUsers=0 Include_launcher=0 TargetDir=C:\python
+@call lib\printc info "Download boost %BOOST_VERSION%, add -C - so that download is resumed / skipped"
+@curl -C - -LO https://dl.bintray.com/boostorg/release/%BOOST_VERSION%/source/%BOOST_ARCHIVE% || @call lib\printc error "Could not fetch Boost archive" && exit /B 1
 
-@rem Define the boost archive to download and decompress specifically 
-set BOOST_FOLDER=boost_1_73_0
-set BOOST_ARCHIVE=%BOOST_FOLDER%.7z
-for /f %%i in ('echo %BOOST_FOLDER% ^| sed "s/boost_//" ^| tr "_" "."') do set BOOST_VERSION=%%i
+@call lib\printc info "Decompress the selected version of boost archive in the folder of this script, -aos for skip extraction of files already there."
+@7z x -aos %BOOST_ARCHIVE% -o%~dp0 || @call lib\printc error "Error decompressing Boost archive" && exit /B 1
 
-@rem add -C - so that download is resumed / skipped
-curl -C - -LO https://dl.bintray.com/boostorg/release/%BOOST_VERSION%/source/%BOOST_ARCHIVE%
+@call lib\printc info "Link the specific boost version's folder in this script's folder to C:\boost"
+@mklink /d C:\boost "%~dp0\%BOOST_FOLDER%" || @call lib\printc error "Could not create build link to Boost folder" && exit /B 1
 
-@rem Decompress only one specific boost archive in the folder of this script, -aos for skip extraction if file is already there
-7z x -aos %BOOST_ARCHIVE% -o%~dp0
+@call lib\printc info "Get the latest libtorrent version from the RC_1_2 branch"
+@git clone https://github.com/arvidn/libtorrent -b RC_1_2 C:/libtorrent || @call lib\printc error "Failed to clone LibTorrent from git" && exit /B 1
 
-@rem try to link  the specific boost version's folder in this script's folder to C:\
-mklink /d C:\boost "%~dp0\%BOOST_FOLDER%"
+@for /f %%i in ('grep "LIBTORRENT_VERSION " c:\libtorrent\include\libtorrent\version.hpp ^| cut -d " " -f3 ^| tr -d """"') do @set LIBTORRENT_VERSION=%%i
+@call lib\printc info "Found %LIBTORRENT_VERSION% LibTorrent version"
 
-@rem try to get rid of many warnings to help readability - they are:
-@rem Info: Boost.Config is older than your compiler version - probably nothing bad will happen - but you may wish to look for an update Boost version.  Define BOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE to suppress this message.
-@rem set BOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE=1
+@call lib\printc info "Set MS Visual C build variables, turn back display of path and command lines executed for easier debugging"
+@call "%programfiles(x86)%\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+@echo on
 
-@rem Get the latest libtorrent version from the RC_1_2 branch
-git clone https://github.com/arvidn/libtorrent -b RC_1_2 C:/libtorrent
-@rem Find out the version and revision of the latest libtorrent
-for /f %%i in ('grep "LIBTORRENT_VERSION " c:\libtorrent\include\libtorrent\version.hpp ^| cut -d " " -f3 ^| tr -d """"') do set LIBTORRENT_VERSION=%%i
+@call lib\printc info "Bootstrap boost"
+@cd c:\boost
+@call bootstrap.bat || @call %~dp0\lib\printc error "Boost b2 bootstrap failed." && exit /B 1
+@echo on
 
-@rem seems useless, let's no keep track of LIBTORRENT_REVISION 
-@rem for /f %%i in ('grep LIBTORRENT_REVISION c:\libtorrent\include\libtorrent\version.hpp ^| cut -d " " -f3 ^| tr -d """"') do set LIBTORRENT_REVISION=%%i
+@call %~dp0\lib\printc info "Start LibTorrent (and boost) build"
+@cd C:\libtorrent\bindings\python
+@python setup.py build_ext --b2-args="libtorrent-link=static boost-link=static variant=release toolset=msvc-14.2 crypto=openssl optimization=speed lto=on lto-mode=full" || @call %~dp0\lib\printc error "Building LibTorrent failed." && exit /B 1
 
-call "%programfiles(x86)%\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
-@rem turn back display of path and command lines executed for easier debugging
-echo on
+@call %~dp0\lib\printc success "Copy the freshly made libtorrent python lib in its place"
+@for /r %%i in (libtorrent*.pyd) do @copy /y %%i C:\deluge2\overlay\Lib\site-packages\libtorrent.pyd & @del /f /q C:\deluge2\overlay\Lib\site-packages\boost*.txt C:\deluge2\overlay\Lib\site-packages\lt*.txt || @call %~dp0\lib\printc error "Copying libtorrent.pyd to overlay folder failed." && exit /B 1
 
-cd c:\boost
-call bootstrap.bat
-@rem turn back display of path and command lines executed for easier debugging
-echo on
+@cd "%~dp0"
+@call lib\printc success "...and save the boost and libtorrent versions used to build it there."
+@echo %BOOST_VERSION% > C:\deluge2\overlay\Lib\site-packages\boost%BOOST_VERSION%.txt
+@echo %LIBTORRENT_VERSION% > C:\deluge2\overlay\Lib\site-packages\lt%LIBTORRENT_VERSION%.txt
 
-cd "%~dp0"
-patch C:/libtorrent/bindings/python/setup.py < 1.2-setup-v3.patch
+@call lib\printc info "Update the present built deluge directories as weel"
+@for /f %%i in ('dir /b C:\deluge2\deluge-2* ^| findstr /v dev') do copy /y C:\deluge2\overlay\Lib\site-packages\libtorrent.pyd C:\deluge2\%%i\Lib\site-packages
+@for /f %%i in ('dir /b C:\deluge2\deluge-2* ^| findstr dev') do copy /y C:\deluge2\overlay\Lib\site-packages\libtorrent.pyd C:\deluge2\%%i\Lib\site-packages
 
-cd C:\libtorrent\bindings\python
-	
-@rem Copy the bat file it was looking for where it is looking for it
-@rem Seems te Boost B2 build system is fixed, copying is no longer necessary.
-@rem copy "%programfiles(x86)%\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" "%programfiles(x86)%\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.26.28801\bin\Hostx64\vcvarsall.bat"
-
-python setup.py build --bjam
-
-@rem Remove the bat file we have copied around
-@rem Seems te Boost B2 build system is fixed, copying is no longer necessary.
-@rem del "%programfiles(x86)%\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.26.28801\bin\Hostx64\vcvarsall.bat"
-
-@rem Put the freshly made libtorrent python lib in its place
-copy /y libtorrent.pyd C:\deluge2\overlay\Lib\site-packages & del /f /q C:\deluge2\overlay\Lib\site-packages\boost*.txt C:\deluge2\overlay\Lib\site-packages\lt*.txt
-@rem ...and save there what were the boost ad libtorrent versions used to build it
-echo %BOOST_VERSION% > C:\deluge2\overlay\Lib\site-packages\boost%BOOST_VERSION%.txt
-
-@rem seems useless, let's no keep track of LIBTORRENT_REVISION 
-@rem echo %LIBTORRENT_VERSION%%LIBTORRENT_REVISION% > C:\deluge2\overlay\Lib\site-packages\libtorrent%LIBTORRENT_VERSION%%LIBTORRENT_REVISION%.txt
-echo %LIBTORRENT_VERSION% > C:\deluge2\overlay\Lib\site-packages\lt%LIBTORRENT_VERSION%.txt
-
-for /f %%i in ('dir /b C:\deluge2\deluge-2* ^| findstr /v dev') do copy /y libtorrent.pyd C:\deluge2\%%i\Lib\site-packages
-for /f %%i in ('dir /b C:\deluge2\deluge-2* ^| findstr dev') do copy /y libtorrent.pyd C:\deluge2\%%i\Lib\site-packages
-
-cd "%~dp0"
-python-%var2%-amd64.exe /uninstall /quiet
-rd /s /q C:\boost
-rd /s /q C:\libtorrent
-rd /s /q C:\python
-
-@rem let'a not remove so that download can be resumed / skipped on next run
-@rem del python*.exe boost_*.7z
-
-call lib\restorepath
+@call lib\printc info "Remove LibTorrent and Boost build dirs"
+@rd /s /q C:\boost
+@rd /s /q C:\libtorrent
+@call lib\removePython.cmd %PYTHONPATH%
+@call lib\restorepath

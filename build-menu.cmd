@@ -54,13 +54,13 @@ exit
 cmd /c openssl-build\openssl.cmd
 goto %last%
 :2
-cmd /c libtorrent-build\lt-1.1.cmd
+cmd /c libtorrent-build\lt-RC_1_1.cmd
 goto %last%
 :3
 cmd /c libtorrent-build\lt-1.2.3.cmd
 goto %last%
 :4
-cmd /c libtorrent-build\lt-1.2.cmd
+cmd /c libtorrent-build\lt-RC_1_2.cmd
 goto %last%
 :5
 cmd /c gvsbuild-build\gvsbuild.cmd

@@ -1,0 +1,15 @@
+\include
+\libexec
+\python
+\share\aclocal
+\share\cogl-1.0
+\share\doc
+\share\gettext
+\share\gir-1.0
+\share\gobject-introspection-1.0
+\share\gtk-3.0
+\share\installed-tests
+\share\man
+\share\pkgconfig
+\share\thumbnailers
+\share\icons\Adwaita\cursors

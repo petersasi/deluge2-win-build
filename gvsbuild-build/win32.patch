@@ -1,0 +1,12 @@
+diff -ur a/gtk/theme/win32/gtk-win32-base.css b/gtk/theme/win32/gtk-win32-base.css
+--- a/gtk/theme/win32/gtk-win32-base.css	2020-04-17 18:31:33.000000000 +0200
++++ b/gtk/theme/win32/gtk-win32-base.css	2020-04-18 15:23:47.527868200 +0200
+@@ -98,7 +98,7 @@
+ 
+ .view:selected {
+   background-color: shade(-gtk-win32-color(edit, window), 0.9);
+-  color: @fg_color;
++  color: #000;
+ }
+ 
+ .view:selected:focus {

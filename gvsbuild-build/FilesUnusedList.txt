@@ -1,0 +1,14 @@
+/bin/.*\.exe
+/bin/.*\.pdb
+/bin/gdbus-codegen
+/bin/g-ir-annotation-tool
+/bin/g-ir-scanner
+/bin/glib-genmarshal
+/bin/glib-mkenums
+/bin/gtester-report
+/etc/gtk-3.0/im-multipress\.conf
+/lib/harfbuzz\.lib
+/lib/.*\.pdb
+/lib/enchant/.*\.pdb
+/lib/gdk-pixbuf-2.0/2.10.0/loaders/.*\.pdb
+/lib/gobject-introspection/giscanner/_giscanner\.pdb

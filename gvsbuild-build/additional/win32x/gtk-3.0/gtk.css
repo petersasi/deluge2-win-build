@@ -1,0 +1,277 @@
+@import url("gtk-win32-base.css");
+
+/* Menus */
+
+menubar {
+    background-color: transparent;
+    border-width: 0;
+    background-image: -gtk-win32-theme-part(menu, 7, 1);
+}
+
+menubar > menuitem {
+    background-color: transparent;
+    border-width: 0;
+    background-image: -gtk-win32-theme-part(menu, 8, 1);
+}
+
+menubar > menuitem:hover {
+    background-image: -gtk-win32-theme-part(menu, 8, 3);
+}
+
+menuitem:hover {
+    background-image: -gtk-win32-theme-part(menu, 14, 2);
+}
+
+menuitem:hover:disabled {
+    background-image: -gtk-win32-theme-part(menu, 14, 4);
+}
+
+menuitem radio,
+menuitem radio:hover,
+menuitem radio:disabled {
+    background-color: transparent;
+    background-image: none;
+    border-width: 0;
+}
+
+menuitem radio:active, 
+menuitem radio:active:hover {
+    background-image: -gtk-win32-theme-part(menu, 11, 3);
+    border-width: 0;
+}
+
+menuitem radio:indeterminate,
+menuitem radio:indeterminate:disabled,
+menuitem radio:indeterminate:hover,
+menuitem radio:indeterminate:active,
+menuitem radio:indeterminate:active:hover {
+    background-image: none; /* Fall back to default, this state is not in win32 */
+    border-width: 0;
+}
+
+menuitem radio:disabled:active,
+menuitem radio:disabled:active:hover {
+    background-image: -gtk-win32-theme-part(menu, 11, 4);
+    border-width: 0;
+}
+
+menuitem check,
+menuitem check:hover,
+menuitem check:disabled {
+    background-image: none;
+    border-width: 0;
+}
+
+menuitem check:active, 
+menuitem check:active:hover {
+    background-image: -gtk-win32-theme-part(menu, 11, 1);
+    border-width: 0;
+}
+
+menuitem check:indeterminate,
+menuitem check:indeterminate:disabled,
+menuitem check:indeterminate:hover,
+menuitem check:indeterminate:active,
+menuitem check:indeterminate:active:hover {
+    background-image: none; /* Fall back to default, this state is not in win32 */
+    border-width: 0;
+}
+
+menuitem check:disabled:active,
+menuitem check:disabled:active:hover{
+    background-image: -gtk-win32-theme-part(menu, 11, 2);
+    border-width: 0;
+}
+
+/* Listbox */
+
+/* We're cheating here, using part 6 (listview header group),
+   because part 1 (listview item) is empty for some reason */
+row:hover {
+  background-image: -gtk-win32-theme-part(listview, 6, 10);
+}
+
+row:selected {
+  background-color: transparent;
+  /* Override *:selected {} blanket style, keeping the background - bright
+     and the text - dark */
+  color: @text_color;
+  background-image: -gtk-win32-theme-part(listview, 6, 13);
+}
+
+row:selected:focus {
+  background-image: -gtk-win32-theme-part(listview, 6, 11);
+}
+
+row:selected:hover {
+  background-image: -gtk-win32-theme-part(listview, 6, 12);
+}
+
+decoration {
+  border-radius: 0px 0px 0 0;
+  border-width: 0px;
+  box-shadow: 0 3px 9px 1px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.23);
+  margin: 10px; }
+  decoration:backdrop {
+    box-shadow: 0 3px 9px 1px transparent, 0 2px 6px 2px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.18); }
+  .maximized decoration, .fullscreen decoration, .tiled decoration, .tiled-top decoration, .tiled-right decoration, .tiled-bottom decoration, .tiled-left decoration {
+    border-radius: 0; }
+  .popup decoration {
+    box-shadow: none; }
+  .csd.popup decoration {
+    border-radius: 0px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1); }
+  .ssd decoration {
+    border-radius: 0px 0px 0 0;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1); }
+    .ssd decoration.maximized {
+      border-radius: 0; }
+  tooltip.csd decoration {
+    border-radius: 0px;
+    box-shadow: none; }
+  .solid-csd decoration {
+    margin: 1px;
+    border-radius: 0px;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: none; }
+headerbar {
+  #padding: 4px 8px;
+  min-height: 0px;
+  color: #000000;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #e6e6e6; }
+  headerbar:backdrop {
+    background-color: #FFFFFF;
+    color: #000000;
+    border-bottom-color: #e6e6e6; }
+  .tiled headerbar, .tiled headerbar:backdrop, .maximized headerbar, .maximized headerbar:backdrop {
+    border-radius: 0; }
+  separator:first-child + headerbar, separator:first-child + headerbar:backdrop, headerbar:first-child, headerbar:first-child:backdrop {
+    border-top-left-radius: 0px; }
+    .maximized separator:first-child + headerbar, .tiled separator:first-child + headerbar, .maximized separator:first-child + headerbar:backdrop, .tiled separator:first-child + headerbar:backdrop, .maximized headerbar:first-child, .tiled headerbar:first-child, .maximized headerbar:first-child:backdrop, .tiled headerbar:first-child:backdrop {
+      border-radius: 0; }
+  headerbar:last-child, headerbar:last-child:backdrop {
+    border-top-right-radius: 0px; }
+    .maximized headerbar:last-child, .tiled headerbar:last-child, .maximized headerbar:last-child:backdrop, .tiled headerbar:last-child:backdrop {
+      border-radius: 0; }
+  headerbar .title {
+    padding-left: 12px;
+    padding-right: 12px;
+    font-weight: bold; }
+  headerbar .subtitle {
+    font-size: smaller;
+    padding-left: 12px;
+    padding-right: 12px;
+    color: alpha(currentColor, 0.7); }
+  headerbar button {
+    padding: 3px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 0px;
+    color: #000000;
+    border-color: #e6e6e6;
+    background-color: #FFFFFF; }
+    headerbar button:hover {
+      color: #000000;
+      border-color: #5fa7e3;
+      background-color: #d5ecff; }
+    headerbar button:active, headerbar button:checked {
+      color: #000000;
+      border-color: #7ebdf1;
+      background-color: #b7ddfd; }
+      headerbar button:active:backdrop, headerbar button:checked:backdrop {
+        color: #000000;
+        border-color: #d9d9d9;
+        background-color: #d9d9d9; }
+      headerbar button:active:disabled, headerbar button:checked:disabled {
+        color: #131313;
+        border-color: #f7f7f7;
+        background-color: #fcfcfc; }
+        headerbar button:active:disabled:backdrop, headerbar button:checked:disabled:backdrop {
+          color: #bfbfbf;
+          border-color: #e6e6e6;
+          background-color: #fcfcfc; }
+    headerbar button:focus, headerbar button:hover:focus, headerbar button:active:focus, headerbar button:active:hover:focus {
+      border-color: #5fa7e3; }
+    headerbar button:disabled {
+      color: #131313;
+      border-color: #f7f7f7;
+      background-color: #fefefe; }
+      headerbar button:disabled:backdrop {
+        color: #bfbfbf;
+        border-color: #e6e6e6;
+        background-color: #fafafa; }
+    headerbar button:backdrop {
+      border-color: #e6e6e6;
+      color: #000000;
+      background-color: #FFFFFF; }
+  headerbar entry {
+    padding: 4px 8px; }
+  headerbar.titlebar, .titlebar headerbar {
+    border-radius: 0px 0px 0px 0px; }
+  headerbar .titlebutton.close, headerbar .titlebutton.maximize, headerbar .titlebutton.minimize, headerbar .titlebutton:not(separator) {
+    #padding: 7px 14px;
+	min-width: 32px;
+    border: none;
+    color: transparent;
+    background-color: transparent;
+    -gtk-icon-shadow: none;
+    #background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat; }
+    headerbar .titlebutton.close:hover, headerbar .titlebutton.maximize:hover, headerbar .titlebutton.minimize:hover, headerbar .titlebutton:not(separator):hover {
+      background-color: rgba(0, 0, 0, 0.15); }
+    headerbar .titlebutton.close:active, headerbar .titlebutton.maximize:active, headerbar .titlebutton.minimize:active, headerbar .titlebutton:not(separator):active {
+      background-color: rgba(0, 0, 0, 0.3); }
+  headerbar .titlebutton.close {
+    background-image: url("assets/close-focused.png"); }
+    headerbar .titlebutton.close:hover {
+      background-color: #ff5252;
+      background-image: url("assets/close-focused-active.png"); }
+    headerbar .titlebutton.close:active {
+      background-color: #ff0000;
+      background-image: url("assets/close-focused-active.png"); }
+    headerbar .titlebutton.close:backdrop {
+      background-image: url("assets/close-unfocused.png"); }
+      headerbar .titlebutton.close:backdrop:hover {
+        background-color: #ff5252;
+        background-image: url("assets/close-focused-active.png"); }
+      headerbar .titlebutton.close:backdrop:active {
+        background-color: #ff0000;
+        background-image: url("assets/close-focused-active.png"); }
+  headerbar .titlebutton.minimize {
+    background-image: url("assets/minimize-focused.png"); }
+    headerbar .titlebutton.minimize:hover {
+      background-image: url("assets/minimize-focused.png"); }
+    headerbar .titlebutton.minimize:active {
+      background-image: url("assets/minimize-focused.png"); }
+    headerbar .titlebutton.minimize:backdrop {
+      background-image: url("assets/minimize-unfocused.png"); }
+      headerbar .titlebutton.minimize:backdrop:hover {
+        background-image: url("assets/minimize-focused.png"); }
+      headerbar .titlebutton.minimize:backdrop:active {
+        background-image: url("assets/minimize-focused.png"); }
+  headerbar .titlebutton.maximize {
+    background-image: url("assets/maximize-focused.png"); }
+    headerbar .titlebutton.maximize:hover {
+      background-image: url("assets/maximize-focused.png"); }
+    headerbar .titlebutton.maximize:active {
+      background-image: url("assets/maximize-focused.png"); }
+    headerbar .titlebutton.maximize:backdrop {
+      background-image: url("assets/maximize-unfocused.png"); }
+      headerbar .titlebutton.maximize:backdrop:hover {
+        background-image: url("assets/maximize-focused.png"); }
+      headerbar .titlebutton.maximize:backdrop:active {
+        background-image: url("assets/maximize-focused.png"); }
+  .maximized headerbar .titlebutton.maximize {
+    background-image: url("assets/restore-focused.png"); }
+    .maximized headerbar .titlebutton.maximize:hover {
+      background-image: url("assets/restore-focused.png"); }
+    .maximized headerbar .titlebutton.maximize:active {
+      background-image: url("assets/restore-focused.png"); }
+    .maximized headerbar .titlebutton.maximize:backdrop {
+      background-image: url("assets/restore-unfocused.png"); }
+      .maximized headerbar .titlebutton.maximize:backdrop:hover {
+        background-image: url("assets/restore-focused.png"); }
+      .maximized headerbar .titlebutton.maximize:backdrop:active {
+        background-image: url("assets/restore-focused.png"); }
